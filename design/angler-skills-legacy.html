@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angler Skill Tree Guide</title>
+<style>
+  :root{
+    --bg:#12161c; --panel:#1b2129; --panel2:#232b35; --line:#333d49;
+    --ink:#e8edf2; --muted:#9aa7b4; --accent:#4ea3ff; --gold:#ffcc44;
+    --heart:#ff6a6a; --speed:#8be0a0; --luck:#e2c04a; --armor:#9fb6c9; --water:#57c7ff; --loot:#ffb347;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.55;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding:28px 16px 64px}
+  header{text-align:center;padding:24px 8px 8px}
+  h1{font-size:clamp(26px,5vw,40px);margin:.1em 0;letter-spacing:.5px}
+  .sub{color:var(--muted);font-size:15px;margin-top:2px}
+  h2{font-size:20px;margin:34px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  /* how it works */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .step .n{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--accent);
+    color:#04121f;font-weight:700;align-items:center;justify-content:center;margin-bottom:8px;font-size:14px}
+  .step b{display:block;margin-bottom:2px}
+  .step small{color:var(--muted)}
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:8px 16px;background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:14px 18px;font-size:14px}
+  .legend span{white-space:nowrap;color:var(--muted)}
+  .legend b{color:var(--ink)}
+  /* tiers */
+  .tier{margin-top:22px}
+  .tier-head{display:flex;align-items:center;gap:10px;margin:0 0 10px}
+  .tier-head .req{background:var(--panel2);border:1px solid var(--line);color:var(--gold);
+    font-size:12.5px;padding:3px 10px;border-radius:20px;font-weight:600}
+  .tier-head h3{margin:0;font-size:16px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.6px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;position:relative;overflow:hidden}
+  .card.branchA{border-left:3px solid #3a86ff}
+  .card.branchB{border-left:3px solid #ff9f45}
+  .card.cap{border:1px solid var(--gold);background:linear-gradient(180deg,#241f10,#1b2129)}
+  .card .top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+  .card .name{font-weight:700;font-size:15px}
+  .card .cost{color:var(--gold);font-weight:700;font-size:13px;white-space:nowrap}
+  .card .rw{color:var(--muted);font-size:13.5px;margin:7px 0 9px}
+  .badges{display:flex;flex-wrap:wrap;gap:6px}
+  .b{font-size:11.5px;padding:2px 8px;border-radius:20px;border:1px solid var(--line);background:var(--panel2)}
+  .b.heart{color:var(--heart)} .b.speed{color:var(--speed)} .b.luck{color:var(--luck)}
+  .b.armor{color:var(--armor)} .b.water{color:var(--water)} .b.loot{color:var(--loot);border-color:var(--loot)}
+  .b.start{color:#04121f;background:var(--accent);border-color:var(--accent);font-weight:700}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+  @media(max-width:620px){.split{grid-template-columns:1fr}}
+  .branchbox h4{margin:0 0 8px;font-size:14px}
+  .branchbox.A h4{color:#7fb4ff} .branchbox.B h4{color:#ffbe7d}
+  .note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:10px;padding:14px 16px;color:var(--muted);font-size:14px;margin-top:14px}
+  .note b{color:var(--ink)}
+  .total{text-align:center;font-size:15px;color:var(--muted);margin-top:26px}
+  .total b{color:var(--gold);font-size:20px}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:40px;opacity:.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🎣 Angler Skill Tree</h1>
+    <div class="sub">Fish Farm Festival — Player Guide</div>
+  </header>
+
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><b>Fish or fight</b><small>Catching fish (and killing mobs) earns <b style="color:var(--water)">Angler XP</b>.</small></div>
+    <div class="step"><span class="n">2</span><b>Level up</b><small>Fill the XP bar at the top of the Skills screen. Every level = <b style="color:var(--gold)">1 skill point</b>.</small></div>
+    <div class="step"><span class="n">3</span><b>Press <kbd>K</kbd> &amp; spend</b><small>Open Skills, click a skill to spend points and unlock it.</small></div>
+    <div class="step"><span class="n">4</span><b>Go deeper</b><small>Deeper skills unlock only after you've <b>spent enough points</b> in the tree.</small></div>
+  </div>
+
+  <h2>Reading a skill</h2>
+  <div class="legend">
+    <span><b class="b heart" style="border:0;background:0">❤️ health</b> more hearts</span>
+    <span><b class="b speed" style="border:0;background:0">👟 speed</b> move faster</span>
+    <span><b class="b luck" style="border:0;background:0">🍀 luck</b> better fishing loot</span>
+    <span><b class="b armor" style="border:0;background:0">🛡️ armor</b> tougher</span>
+    <span><b class="b water" style="border:0;background:0">🌊 water</b> underwater power</span>
+    <span><b class="b loot" style="border:0;background:0">🎁 loot</b> one-time item reward</span>
+  </div>
+  <div class="note" style="margin-top:12px">Each skill costs a number of <b>points</b> to buy, and many require a <b>minimum number of points already spent in this tree</b> before they appear. Hover any locked skill in-game to see exactly what it needs.</div>
+
+  <h2>The tree</h2>
+
+  <div class="tier">
+    <div class="tier-head"><span class="req">START</span><h3>Root</h3></div>
+    <div class="grid">
+      <div class="card"><div class="top"><span class="name">🎣 Cast Off</span><span class="cost">1 pt</span></div><div class="rw">Begin the path — +1 heart.</div><div class="badges"><span class="b start">START HERE</span><span class="b heart">❤️ +1 heart</span></div></div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head"><span class="req">0 spent</span><h3>Tier 1 — openers</h3></div>
+    <div class="grid">
+      <div class="card"><div class="top"><span class="name">Steady Hands I</span><span class="cost">1 pt</span></div><div class="rw">Better catches.</div><div class="badges"><span class="b luck">🍀 luck +1</span></div></div>
+      <div class="card"><div class="top"><span class="name">Sea Legs I</span><span class="cost">1 pt</span></div><div class="rw">Move faster.</div><div class="badges"><span class="b speed">👟 +1.5% speed</span></div></div>
+      <div class="card"><div class="top"><span class="name">Strong Arm</span><span class="cost">1 pt</span></div><div class="rw">Tougher.</div><div class="badges"><span class="b heart">❤️ +1 heart</span></div></div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head"><span class="req">2 spent</span><h3>Tier 1 — continued</h3></div>
+    <div class="grid">
+      <div class="card"><div class="top"><span class="name">Steady Hands II</span><span class="cost">1 pt</span></div><div class="rw">Even luckier.</div><div class="badges"><span class="b luck">🍀 luck +1</span></div></div>
+      <div class="card"><div class="top"><span class="name">Sea Legs II</span><span class="cost">1 pt</span></div><div class="rw">Even nimbler.</div><div class="badges"><span class="b speed">👟 +1.5% speed</span></div></div>
+      <div class="card"><div class="top"><span class="name">Enchanted Rod</span><span class="cost">2 pt</span></div><div class="rw">Get a rod: Lure II + Luck of the Sea II + Unbreaking II.</div><div class="badges"><span class="b loot">🎁 one-time item</span></div></div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head"><span class="req">5 spent</span><h3>Tier 2</h3></div>
+    <div class="grid">
+      <div class="card"><div class="top"><span class="name">Gills I</span><span class="cost">2 pt</span></div><div class="rw">Breathe underwater (Water Breathing).</div><div class="badges"><span class="b water">🌊 breathe</span><span class="b armor">🛡️ +1</span></div></div>
+      <div class="card"><div class="top"><span class="name">Tide Eye</span><span class="cost">2 pt</span></div><div class="rw">Find better fish.</div><div class="badges"><span class="b luck">🍀 luck +1</span></div></div>
+      <div class="card"><div class="top"><span class="name">Firm Grip</span><span class="cost">2 pt</span></div><div class="rw">A little nimbler.</div><div class="badges"><span class="b speed">👟 +1% speed</span></div></div>
+      <div class="card"><div class="top"><span class="name">Patience</span><span class="cost">1 pt</span></div><div class="rw">Tougher.</div><div class="badges"><span class="b heart">❤️ +1 heart</span></div></div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head"><span class="req">8 spent</span><h3>Tier 2 — upgrade</h3></div>
+    <div class="grid">
+      <div class="card"><div class="top"><span class="name">Gills II</span><span class="cost">3 pt</span></div><div class="rw">Swim fast like a dolphin (Dolphin's Grace).</div><div class="badges"><span class="b water">🌊 fast swim</span><span class="b armor">🛡️ +1</span></div></div>
+    </div>
+  </div>
+
+  <h2>Choose your path — Deep Sea <span style="color:var(--muted);font-weight:400">or</span> Coast</h2>
+  <div class="split">
+    <div class="branchbox A">
+      <h4>🌊 Branch A — Deep Sea</h4>
+      <div class="grid" style="grid-template-columns:1fr">
+        <div class="card branchA"><div class="top"><span class="name">Deep Diver</span><span class="cost">3 pt · 12 spent</span></div><div class="rw">Conduit Power in deep water: see, breathe &amp; mine faster.</div><div class="badges"><span class="b water">🌊 conduit</span><span class="b armor">🛡️ +3 · knockback</span></div></div>
+        <div class="card branchA"><div class="top"><span class="name">Giant Hunter</span><span class="cost">3 pt · 15 spent</span></div><div class="rw">Receive a Heart of the Sea.</div><div class="badges"><span class="b loot">🎁 one-time item</span></div></div>
+        <div class="card branchA"><div class="top"><span class="name">Iron Nerve</span><span class="cost">2 pt · 18 spent</span></div><div class="rw">Fearless in the depths.</div><div class="badges"><span class="b heart">❤️ +2 hearts</span></div></div>
+      </div>
+    </div>
+    <div class="branchbox B">
+      <h4>🏖️ Branch B — Coast</h4>
+      <div class="grid" style="grid-template-columns:1fr">
+        <div class="card branchB"><div class="top"><span class="name">Coastal Native</span><span class="cost">3 pt · 12 spent</span></div><div class="rw">Much faster on land and water.</div><div class="badges"><span class="b speed">👟 +2% speed</span></div></div>
+        <div class="card branchB"><div class="top"><span class="name">Fishmonger</span><span class="cost">3 pt · 15 spent</span></div><div class="rw">Sell your catch — receive 12 Emeralds.</div><div class="badges"><span class="b loot">🎁 one-time item</span></div></div>
+        <div class="card branchB"><div class="top"><span class="name">Boat Handler</span><span class="cost">2 pt · 18 spent</span></div><div class="rw">Handle boats, swim nimbly.</div><div class="badges"><span class="b speed">👟 +1.5% speed</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head"><span class="req">12 → 20 spent</span><h3>Shared spine</h3></div>
+    <div class="grid">
+      <div class="card"><div class="top"><span class="name">Lucky I</span><span class="cost">2 pt · 12 spent</span></div><div class="rw">Fortune favors you.</div><div class="badges"><span class="b luck">🍀 luck +1.5</span></div></div>
+      <div class="card"><div class="top"><span class="name">Lucky II</span><span class="cost">2 pt · 16 spent</span></div><div class="rw">Fortune multiplies.</div><div class="badges"><span class="b luck">🍀 luck +1.5</span></div></div>
+      <div class="card"><div class="top"><span class="name">Salt Skin</span><span class="cost">2 pt · 20 spent</span></div><div class="rw">Hardened by the sea.</div><div class="badges"><span class="b heart">❤️ +1 heart</span><span class="b armor">🛡️ +1</span></div></div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head"><span class="req">26 spent</span><h3>Capstone</h3></div>
+    <div class="grid">
+      <div class="card cap"><div class="top"><span class="name">👑 Harbor Master</span><span class="cost">4 pt</span></div><div class="rw">Receive a legendary Trident (Loyalty III + Impaling V) + your final boost.</div><div class="badges"><span class="b loot">🎁 legendary trident</span><span class="b heart">❤️ +2 hearts</span><span class="b speed">👟 +2% speed</span></div></div>
+    </div>
+  </div>
+
+  <div class="note"><b>Tip:</b> Branch A and Branch B are both worth taking — but plan ahead. It takes <b>44 points total</b> to unlock every skill, so early on, pick the direction (deep-sea power or coastal speed &amp; trade) that fits how you like to play.</div>
+
+  <div class="total">Total to complete the whole tree: <b>44 points</b></div>
+
+  <footer>Fish Farm Festival · Angler Skill Tree · press <b>K</b> in-game to open Skills</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FFF Economy Design</title>
+<style>
+  :root{
+    --bg:#f5f1e8; --card:#fffdf7; --ink:#2b2620; --muted:#6b6357;
+    --line:#e0d8c8; --accent:#1f7a5a; --accent2:#c2721a; --gold:#b8860b;
+    --faucet:#2f7dd1; --drain:#c0442f; --quest:#7a4fb0; --festival:#c2721a;
+    --chip:#efe8d8;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#181510; --card:#221e18; --ink:#ece5d8; --muted:#a99f8e;
+      --line:#3a332a; --accent:#4fbf95; --accent2:#e59b4d; --gold:#d9a92e;
+      --faucet:#5aa2e6; --drain:#e0705c; --quest:#b088e0; --festival:#e59b4d;
+      --chip:#2e281f;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#181510; --card:#221e18; --ink:#ece5d8; --muted:#a99f8e;
+    --line:#3a332a; --accent:#4fbf95; --accent2:#e59b4d; --gold:#d9a92e;
+    --faucet:#5aa2e6; --drain:#e0705c; --quest:#b088e0; --festival:#e59b4d; --chip:#2e281f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Segoe UI",system-ui,"Sarabun","Noto Sans Thai",sans-serif;line-height:1.65;}
+  .wrap{max-width:1000px;margin:0 auto;padding:32px 16px 80px;}
+  h1{font-size:1.9rem;margin:0 0 4px;letter-spacing:-.01em}
+  .sub{color:var(--muted);margin:0 0 26px;font-size:.98rem}
+  h2{font-size:1.28rem;margin:38px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+  h3{font-size:1.05rem;margin:22px 0 8px;color:var(--accent)}
+  p{margin:10px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0;
+    box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .loop{display:flex;flex-wrap:wrap;align-items:center;gap:8px;justify-content:center;margin:8px 0 4px}
+  .loop .node{background:var(--chip);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.92rem;text-align:center}
+  .loop .arr{color:var(--muted);font-weight:700}
+  .tag{display:inline-block;font-size:.74rem;font-weight:700;padding:2px 8px;border-radius:20px;color:#fff;vertical-align:middle}
+  .t-faucet{background:var(--faucet)} .t-drain{background:var(--drain)}
+  .t-quest{background:var(--quest)} .t-festival{background:var(--festival)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.9rem}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--chip);font-size:.82rem;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+  td code,code{background:var(--chip);padding:1px 6px;border-radius:5px;font-size:.85em;font-family:ui-monospace,Menlo,Consolas,monospace}
+  .en{font-weight:700}
+  .num{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--accent2);font-weight:600}
+  .callout{border-left:4px solid var(--accent2);background:color-mix(in srgb,var(--accent2) 8%,transparent);
+    border-radius:0 10px 10px 0;padding:12px 16px;margin:16px 0}
+  .warn{border-left-color:var(--drain);background:color-mix(in srgb,var(--drain) 9%,transparent)}
+  .ok{border-left-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent)}
+  .phase{display:flex;gap:12px;align-items:flex-start;margin:12px 0}
+  .phase .badge{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:800}
+  ul{margin:8px 0;padding-left:22px} li{margin:4px 0}
+  .small{font-size:.85rem;color:var(--muted)}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin:6px 0 0;font-size:.85rem}
+  .legend span{display:flex;align-items:center;gap:6px}
+  hr{border:none;border-top:1px dashed var(--line);margin:26px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>🐟 Fish Farm Festival — ระบบเศรษฐกิจในเกม</h1>
+<p class="sub">เอกสารออกแบบ (v1) เพื่อรีวิวก่อนลงมือ · สร้างจากมอดที่มีในแพ็กอยู่แล้ว ไม่ต้องลงเพิ่ม · ตัวเลขทั้งหมดปรับได้</p>
+
+<div class="card">
+  <h3 style="margin-top:0">ภาพรวมวงจร (The Loop)</h3>
+  <div class="loop">
+    <div class="node">🎣🌾 ผลิต<br><span class="small">จับปลา/ปลูกพืช</span></div>
+    <div class="arr">→</div>
+    <div class="node">🍳 แปรรูป<br><span class="small">ทำอาหาร</span></div>
+    <div class="arr">→</div>
+    <div class="node">💠 ขาย / ส่งเควส<br><span class="small">NPC + Bounty</span></div>
+    <div class="arr">→</div>
+    <div class="node">🟢 Emerald<br><span class="small">สกุลเงิน</span></div>
+    <div class="arr">→</div>
+    <div class="node">🛒 ใช้จ่าย<br><span class="small">ของหายาก/ตกแต่ง/สกิล</span></div>
+  </div>
+  <div class="legend">
+    <span><span class="tag t-faucet">FAUCET</span> เงินไหลเข้า</span>
+    <span><span class="tag t-drain">DRAIN</span> เงินไหลออก</span>
+    <span><span class="tag t-quest">QUEST</span> เควส/บาวน์ตี้</span>
+    <span><span class="tag t-festival">FESTIVAL</span> อีเวนต์เทศกาล</span>
+  </div>
+</div>
+
+<div class="callout">
+  <strong>หลักการหัวใจ:</strong> เศรษฐกิจต้องมีทั้ง <b>ก๊อกน้ำ</b> (ขาย/เควส = เงินเข้า) และ <b>ท่อระบาย</b> (ร้านค้า/ค่าธรรมเนียม = เงินออก) เท่าๆกัน
+  ปัญหาปัจจุบันคือของล้นเพราะไม่มีทั้งสองอย่าง เป้าหมายไม่ใช่ "ให้เงินง่าย" แต่คือ "ให้ของทุกชิ้นมีขั้นถัดไป" และ "ให้เงินมีที่ใช้จนต้องหามาเรื่อยๆ"
+</div>
+
+<h2>1 · สกุลเงิน</h2>
+<p>ใช้ <b>Emerald</b> เป็นสกุลเงินหลัก — ไม่ลงมอดเงินตราเพิ่ม (ลดความซับซ้อน และ Bountiful/villagersplus รองรับ emerald ตรงๆ อยู่แล้ว)
+เพิ่ม <b>Festival Token</b> (ไอเท็มพิเศษ) เป็นสกุลเงินชั้นสอง สำหรับอีเวนต์/ของพรีเมียมเท่านั้น ในเฟสหลัง</p>
+
+<h2>2 · แกนกลาง: Item Tags</h2>
+<p>ทั้งระบบซื้อขายและเควสจะอ้างอิง "แท็กกลุ่มไอเท็ม" ชุดเดียวกัน แก้ที่เดียวมีผลทั้งระบบ ครอบคลุมทุกมอดในตัว</p>
+<table>
+  <tr><th>Tag</th><th>ครอบคลุม</th><th>สถานะ</th></tr>
+  <tr><td><code>#fff:uncommon_fish</code><br><code>#fff:rare_fish</code><br><code>#fff:very_rare_fish</code><br><code>#fff:legendary_fish</code></td><td>ปลาหายากจาก Tide + Hybrid Aquatic แยกตามระดับ</td><td><span class="tag" style="background:var(--accent)">มีแล้ว</span> (สร้างไว้ตอนทำสาย Angler)</td></tr>
+  <tr><td><code>#fff:common_fish</code></td><td>ปลาทั่วไปที่ตกได้ (vanilla + ปลาธรรมดาของมอด)</td><td>ต้องสร้าง</td></tr>
+  <tr><td><code>#fff:crops</code></td><td>ผลผลิตพืชทุกมอด (~46 ชนิด: vanilla, Vinery องุ่น, Farm&amp;Charm, Bakery ฯลฯ)</td><td>ต้องสร้าง (จากลิสต์ที่ดึงไว้แล้ว)</td></tr>
+  <tr><td><code>#fff:dishes</code></td><td>เมนูปรุงแล้วทุกมอด (~217 เมนู: Farmer's/Ocean's/Hunger's Delight, Let's Do)</td><td>ต้องสร้าง (จากลิสต์ที่ดึงไว้แล้ว)</td></tr>
+</table>
+<p class="small">อาจแตก <code>#fff:dishes</code> เป็น <code>dishes_simple</code> / <code>dishes_premium</code> เพื่อตั้งราคาแยกได้ (เฟส 2)</p>
+
+<h2>3 · NPC ซื้อขาย <span class="tag t-faucet">FAUCET</span> <span class="tag t-drain">DRAIN</span></h2>
+<p>ใช้ <b>villagersplus + villagertradingplus</b> (datapack) — ตั้งเทรดเองได้เต็มที่ มีเงื่อนไข biome/สภาพอากาศ และราคาแบบ demand
+เพิ่มเทรดทับอาชีพเดิมได้ที่ <code>data/villagersplus/villager_trades/&lt;อาชีพ&gt;.json</code></p>
+
+<h3>3.1 รับซื้อจากผู้เล่น (ก๊อกเงิน) — <code>buy_item</code></h3>
+<p>หลัก: <b>ของดิบถูก / ของแปรรูป &amp; ของหายากแพง</b> — บังคับให้คนอยากทำอาหารและตกปลาหายาก ไม่ใช่กองของดิบ</p>
+<table>
+  <tr><th>NPC</th><th>รับซื้อ</th><th>อัตรา (เสนอ)</th><th>หมายเหตุ</th></tr>
+  <tr><td rowspan="4"><span class="en">Fishmonger</span><br>พ่อค้าปลา</td>
+      <td>ปลาทั่วไป <code>#fff:common_fish</code></td><td class="num">12 ตัว → 💠1</td><td>ถูก กันกองปลาดิบ</td></tr>
+  <tr><td>ปลาหายาก <code>#fff:uncommon_fish</code></td><td class="num">6 → 💠1</td><td></td></tr>
+  <tr><td><code>#fff:rare_fish</code> / <code>very_rare</code></td><td class="num">2 → 💠1 / 1 → 💠2</td><td>ให้รางวัลความอดทน+ดวง</td></tr>
+  <tr><td><code>#fff:legendary_fish</code></td><td class="num">1 → 💠5</td><td>ปลาตำนาน</td></tr>
+  <tr><td rowspan="3"><span class="en">Greengrocer</span><br>คนขายผัก</td>
+      <td>พืชทั่วไป (ข้าวสาลี/แครอท/มัน…)</td><td class="num">16 → 💠1</td><td></td></tr>
+  <tr><td>ผลผลิตมอด <code>#fff:crops</code> (องุ่น ฯลฯ)</td><td class="num">8 → 💠1</td><td></td></tr>
+  <tr><td>ผลไม้/พืชหายาก</td><td class="num">4 → 💠1</td><td></td></tr>
+  <tr><td rowspan="3"><span class="en">Innkeeper / Chef</span><br>เจ้าของร้าน</td>
+      <td>อาหารปรุงง่าย (ปลาย่าง/ขนมปัง)</td><td class="num">6 → 💠1</td><td></td></tr>
+  <tr><td>เมนู <code>#fff:dishes</code> (Delight/Let's Do)</td><td class="num">2 → 💠1</td><td>คุ้มสุด → ดันสาย Chef</td></tr>
+  <tr><td>เมนูพรีเมียม (หลายวัตถุดิบ)</td><td class="num">1 → 💠2</td><td></td></tr>
+</table>
+<p class="small">ทุกเทรดใส่ <code>max_uses</code> (เช่น 12–16/วันของ NPC) เพื่อจำกัดการปั๊มเงินต่อตัว และใช้ <code>demand</code> ให้ราคาตกเมื่อขายซ้ำๆ</p>
+
+<h3>3.2 ขายให้ผู้เล่น (ท่อระบาย) — <code>sell_item</code></h3>
+<table>
+  <tr><th>NPC</th><th>ขาย</th><th>ราคา (เสนอ)</th><th>เงื่อนไข</th></tr>
+  <tr><td>Fishmonger</td><td>หนังสือมนตร์ Lure / Luck of the Sea, ถังปลา, Nautilus Shell</td><td class="num">💠12–20</td><td>เฉพาะ biome ทะเล</td></tr>
+  <tr><td>Greengrocer</td><td>เมล็ดพันธุ์มอดหายาก (องุ่น Vinery, Farm&amp;Charm), bonemeal ยกกอง</td><td class="num">💠5–8</td><td></td></tr>
+  <tr><td>Innkeeper</td><td>Golden Carrot, เค้ก, วัตถุดิบพิเศษ, บล็อกครัว/เตา</td><td class="num">💠3–12</td><td></td></tr>
+  <tr><td><span class="en">Decorator</span> <span class="small">(อาชีพใหม่)</span></td><td>ของตกแต่ง Mcw (เฟอร์นิเจอร์/ไฟ/holidays), ตู้ปลา</td><td class="num">💠3–15</td><td><b>ท่อระบายหลัก</b> — ของสวยไม่รู้จบ</td></tr>
+</table>
+
+<h2>4 · กระดานบาวน์ตี้ (Bountiful) <span class="tag t-quest">QUEST</span></h2>
+<p><b>เครื่องยนต์หลักของเศรษฐกิจ</b> — ให้ "ทิศทาง" ว่าควรหาอะไร รางวัลดีกว่าขายเปล่า เควสหมุนเปลี่ยนเรื่อยๆ
+ยืนยันจาก jar แล้วว่า Bountiful 6.0.4 รองรับ objective แบบ <code>item</code>/<code>item_tag</code>/<code>criteria</code> และ reward แบบ <code>item</code> <b>และ <code>command</code></b> (มีคลาส <code>BountyTypeCommand</code>)</p>
+
+<h3>4.1 ส่งของ (objectives)</h3>
+<table>
+  <tr><th>Decree (หมวด)</th><th>ตัวอย่างงาน</th><th>จำนวน</th></tr>
+  <tr><td><span class="en">Fisherman</span> 🎣</td><td>ส่ง <code>#fff:uncommon_fish</code> / <code>rare_fish</code> / ปลาชนิดที่ระบุ</td><td class="num">4–16</td></tr>
+  <tr><td><span class="en">Farmer</span> 🌾</td><td>ส่ง <code>#fff:crops</code> / พืชชนิดที่ระบุ</td><td class="num">16–64</td></tr>
+  <tr><td><span class="en">Chef</span> 🍳 <span class="small">(ใหม่)</span></td><td>ส่ง <code>#fff:dishes</code> / เมนูที่ระบุ</td><td class="num">4–12</td></tr>
+</table>
+
+<h3>4.2 รางวัล (rewards) — ผสม 3 แบบ</h3>
+<table>
+  <tr><th>ประเภท</th><th>ตัวอย่าง</th><th>บทบาท</th></tr>
+  <tr><td>💠 Emerald <span class="tag t-faucet">FAUCET</span></td><td><code>{type:item, content:"minecraft:emerald"}</code> จำนวนตาม worth</td><td>รายได้หลัก</td></tr>
+  <tr><td>⭐ แต้มสกิล <span class="tag t-quest">QUEST</span></td><td><code>{type:"command", content:"puffish_skills experience add @p fff_angler 100"}</code></td><td>เร่งปลดสาย Puffish — เชื่อมเศรษฐกิจเข้ากับสกิลตรี</td></tr>
+  <tr><td>🎁 ของหายาก</td><td>หนังสือมนตร์, Heart of the Sea, ของเทศกาล</td><td>ล่อใจ/ของสะสม</td></tr>
+</table>
+<div class="callout ok"><strong>จุดเชื่อมสำคัญ:</strong> reward แบบ <code>command</code> ทำให้ "ส่งของ = ได้แต้มสกิล" ได้โดยตรง เศรษฐกิจกับสกิลตรีเลยไม่แยกกัน — ยิ่งทำเควส ยิ่งเก่งขึ้น</div>
+
+<h2>5 · Festival Token &amp; อีเวนต์ <span class="tag t-festival">FESTIVAL</span> <span class="small">(เฟส 3)</span></h2>
+<p>ชั้นอัตลักษณ์ของแพ็กชื่อ "Festival" — จัดอีเวนต์เป็นรอบ:</p>
+<ul>
+  <li><b>Biggest Catch</b> — ส่งปลาหายากสุด · <b>Cook-Off</b> — ส่งเมนูพรีเมียม · <b>Harvest Fair</b> — ส่งพืชครบชนิด</li>
+  <li>ส่งของในอีเวนต์ → ได้ <b>Festival Token</b> → แลกของตกแต่งพิเศษ, ของ cosmetic, gear หายาก, หรือแต้มสกิลก้อนใหญ่</li>
+</ul>
+<p class="small">Festival Token ทำได้ 2 ทาง (เลือกตอนลงมือ): (ก) จองไอเท็ม vanilla ตัวหนึ่งเป็น token เลย — ง่าย เสถียร; (ข) ไอเท็มคัสตอมผ่าน data-mod — สวยกว่า แต่ต้องมีไฟล์ jar เพิ่ม</p>
+
+<h2>6 · Sink ส่วนตัว (มีอยู่แล้ว แค่จูน)</h2>
+<p><b>spiceoffabric</b> + <b>diet</b> ให้บัฟเมื่อกิน "หลากหลาย/ครบหมู่" อยู่แล้ว จูนให้คุ้มจริง → กองปลา 500 ตัวไร้ค่า แต่กิน 50 เมนูต่างกันได้แม็กซ์เลือด/บัฟ = ผลักคนให้ทำอาหารหลากหลาย (กินวัตถุดิบทิ้ง) แทนกักตุน เชื่อมเข้าสาย Chef พอดี</p>
+
+<h2>7 · สมดุล &amp; กันเงินเฟ้อ <span class="tag t-drain">DRAIN</span></h2>
+<div class="callout warn"><strong>ความเสี่ยงอันดับ 1 = เงินเฟ้อ.</strong> ถ้ารับซื้อใจดีเกิน emerald ท่วม ราคาหมดความหมาย เกมจืด</div>
+<table>
+  <tr><th>มาตรการ</th><th>รายละเอียด</th></tr>
+  <tr><td>บันไดมูลค่า</td><td>ดิบถูกเสมอ · แปรรูป/หายากแพง → รางวัลอยู่ที่ "ความพยายาม" ไม่ใช่ "ปริมาณ"</td></tr>
+  <tr><td>จำกัดก๊อก</td><td><code>max_uses</code> ต่อ NPC + <code>demand</code> ให้ราคาตกเมื่อขายซ้ำ + จำกัดจำนวนบาวน์ตี้ที่รับได้พร้อมกัน (ตั้งใน config Bountiful)</td></tr>
+  <tr><td>ท่อระบายจริง</td><td>Decorator (ของตกแต่งไม่รู้จบ) · ค่า respec สกิล · ค่าเข้าอีเวนต์ · gear/มนตร์แพงๆ</td></tr>
+</table>
+
+<h2>8 · แผนลงมือ (เป็นเฟส)</h2>
+<div class="phase"><div class="badge">1</div><div><b>Tag backbone + NPC ซื้อขาย</b> — สร้าง <code>#fff:common_fish/crops/dishes</code> + เทรด buy/sell (ก๊อก+ท่อระบายพื้นฐาน) <span class="small">· ได้ผลไวสุด เห็นวงจรเงินทันที</span></div></div>
+<div class="phase"><div class="badge">2</div><div><b>Bountiful decrees</b> — พูล fish/crop/dish → emerald + แต้มสกิล + ของหายาก (เครื่องยนต์หลัก)</div></div>
+<div class="phase"><div class="badge">3</div><div><b>Festival Token + อีเวนต์</b> — ชั้นเทศกาล + cosmetic sink</div></div>
+<div class="phase"><div class="badge">4</div><div><b>จูน spiceoffabric/diet + รอบปรับสมดุล</b> — ทดสอบราคาจริง ปรับก๊อก/ท่อระบายให้นิ่ง</div></div>
+
+<hr>
+<h3>ข้อควรรู้ก่อนลงมือ (ตรงๆ)</h3>
+<ul>
+  <li><b>ต้องยืนยัน schema reward <code>command</code> ของ Bountiful ตอน build</b> — เจอคลาสแล้วว่ารองรับ แต่รูปแบบ JSON ที่ถูกต้องต้องทดสอบจริงก่อน (เหมือนที่เคยเจอปัญหา field ไม่รองรับ)</li>
+  <li><b>ต้อง sync ขึ้น Server ด้วย</b> — ระบบนี้เป็น datapack/config ทั้งหมด ทำฝั่ง client ทดสอบก่อน แล้วค่อยยกขึ้น server (ยังค้างอยู่ตั้งแต่คราวก่อน)</li>
+  <li>เทรด NPC ที่แก้ผ่าน datapack จะมีผลกับ villager ที่ <b>เกิด/เลื่อนขั้นใหม่</b> — ตัวเดิมอาจต้องรอ refresh</li>
+  <li>ต้อง <b>ปิดเกมสุดแล้วเปิดใหม่</b> ทุกครั้งที่แตะไฟล์ jar (ถ้าเฟส 3 เลือก token แบบ data-mod)</li>
+</ul>
+
+<div class="callout"><strong>ขอคอนเฟิร์ม:</strong> โอเคกับโครงนี้ไหม? ถ้าโอเค ผมเริ่ม <b>เฟส 1</b> ก่อน (tag + NPC ซื้อขาย) — เห็นวงจรเงินไวสุด แล้วค่อยไล่เฟสถัดไป หรือถ้าอยากปรับตัวเลข/สลับลำดับเฟส บอกได้เลย</div>
+
+</div>
+</body>
+</html>

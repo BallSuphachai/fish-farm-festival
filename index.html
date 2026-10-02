@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fish Farm Festival — คู่มือการเล่น</title>
+<meta name="description" content="คู่มือการเล่นโมดแพ็ค Fish Farm Festival (Minecraft 1.20.1 Fabric) ภาษาไทย สไตล์ wiki">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐟</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bg:#f4f1ea; --paper:#ffffff; --ink:#1e2a2b; --muted:#5c6b6c; --line:#dcd6c8;
+    --accent:#0d6e6b; --accent-soft:#e2efec; --warn-bg:#fdf3e3; --warn-line:#d9a441;
+    --tip-bg:#e6f2f0; --side:#efeae0;
+    --font:'Sarabun', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+    --bg:#10191a; --paper:#162224; --ink:#e7efec; --muted:#98acad; --line:#2a4145;
+    --accent:#5cc6bf; --accent-soft:#123437; --warn-bg:#2c2413; --warn-line:#c99a3e;
+    --tip-bg:#123437; --side:#13201f;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#10191a; --paper:#162224; --ink:#e7efec; --muted:#98acad; --line:#2a4145;
+    --accent:#5cc6bf; --accent-soft:#123437; --warn-bg:#2c2413; --warn-line:#c99a3e;
+    --tip-bg:#123437; --side:#13201f;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.7;font-size:16px;
+    padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+    -webkit-font-smoothing:antialiased}
+  img{max-width:100%}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .layout{display:flex;gap:0;align-items:flex-start;max-width:1160px;margin:0 auto}
+  .side{position:sticky;top:env(safe-area-inset-top,0px);align-self:flex-start;flex:0 0 236px;
+    height:100dvh;overflow-y:auto;background:var(--side);border-right:1px solid var(--line);
+    padding:20px 16px 40px}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.15rem;color:var(--ink);margin-bottom:2px}
+  .brand .fish{font-size:1.3rem}
+  .brand-sub{font-size:.76rem;color:var(--muted);margin-bottom:16px}
+  .side nav a{display:block;color:var(--ink);padding:6px 10px;border-radius:6px;font-size:.93rem}
+  .side nav a:hover{background:var(--accent-soft);text-decoration:none}
+  .side nav .grp{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+    margin:16px 0 4px;padding-left:10px;font-weight:600}
+  main{flex:1 1 auto;min-width:0;max-width:820px;background:var(--paper);padding:28px 34px 80px;
+    border-right:1px solid var(--line);min-height:100dvh}
+  .banner{background:linear-gradient(120deg,var(--accent-soft),transparent);border:1px solid var(--line);
+    border-radius:10px;padding:20px 22px;margin-bottom:8px}
+  .banner h1{margin:0 0 4px;font-size:1.9rem;letter-spacing:-.01em}
+  .banner p{margin:0;color:var(--muted)}
+  h1,h2,h3{line-height:1.25;text-wrap:balance}
+  h2{font-size:1.4rem;margin:38px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line);scroll-margin-top:16px}
+  h2 .em{font-size:1.15rem;margin-right:6px}
+  h3{font-size:1.1rem;margin:20px 0 6px;color:var(--accent)}
+  p{margin:8px 0}
+  ul,ol{margin:8px 0;padding-left:1.4em}
+  li{margin:4px 0}
+  code{background:var(--accent-soft);padding:1px 6px;border-radius:4px;font-size:.9em}
+  .infobox{float:right;width:250px;background:var(--side);border:1px solid var(--line);border-radius:8px;
+    margin:0 0 14px 18px;padding:14px}
+  .infobox h4{margin:0 0 8px;font-size:.95rem;text-align:center;color:var(--accent)}
+  .infobox table{width:100%;border-collapse:collapse;font-size:.86rem}
+  .infobox td{padding:3px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+  .infobox td:first-child{color:var(--muted);white-space:nowrap;width:40%}
+  table.data{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92rem}
+  table.data th,table.data td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  table.data th{background:var(--accent-soft);font-weight:600}
+  .callout{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--tip-bg);
+    border-radius:6px;padding:10px 14px;margin:14px 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn-line);background:var(--warn-bg)}
+  .callout b{color:var(--ink)}
+  .toc-toggle{display:none}
+  footer{color:var(--muted);font-size:.85rem;margin-top:40px;padding-top:16px;border-top:1px solid var(--line)}
+  @media(max-width:820px){
+    .layout{flex-direction:column}
+    .side{position:static;height:auto;flex-basis:auto;width:100%;border-right:none;border-bottom:1px solid var(--line)}
+    main{border-right:none;padding:20px 16px 60px;max-width:none}
+    .side nav{display:none}
+    .side nav.open{display:block}
+    .toc-toggle{display:inline-block;margin-top:8px;font-size:.9rem;background:var(--accent-soft);
+      border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:6px 12px;cursor:pointer}
+  }
+  @media(max-width:560px){.infobox{float:none;width:auto;margin:0 0 14px}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="side">
+    <div class="brand"><span class="fish">🐟</span> Fish Farm Festival</div>
+    <div class="brand-sub">คู่มือการเล่น (Player Wiki) · ภาษาไทย</div>
+    <button class="toc-toggle" id="tocBtn">☰ สารบัญ</button>
+    <nav id="nav">
+      <div class="grp">เริ่มต้น</div>
+      <a href="#overview">ภาพรวมแพ็ค</a>
+      <a href="#start">เริ่มเล่นวันแรก</a>
+      <div class="grp">ระบบหลัก</div>
+      <a href="#fishing">ตกปลา &amp; ทะเล</a>
+      <a href="#cooking">ครัว &amp; อาหาร &amp; โภชนาการ</a>
+      <a href="#farming">ฟาร์ม &amp; การแปรรูป</a>
+      <a href="#economy">เศรษฐกิจ &amp; เควสต์</a>
+      <a href="#seasons">ฤดูกาล</a>
+      <div class="grp">ผจญภัย</div>
+      <a href="#combat">การต่อสู้ &amp; เรือรบอิลลาเจอร์</a>
+      <a href="#skills">สกิล &amp; ไอเทมติดตัว</a>
+      <a href="#world">สำรวจโลก</a>
+      <div class="grp">สร้างสรรค์</div>
+      <a href="#build">สร้าง ตกแต่ง &amp; จัดเก็บ</a>
+      <div class="grp">เทคนิค</div>
+      <a href="#performance">ตั้งค่า &amp; FPS</a>
+      <a href="#faq">ปัญหาที่พบบ่อย (FAQ)</a>
+      <div class="grp">คู่มือเชิงลึก</div>
+      <a href="guides/skill-tree.html">สกิลทรี (ทุกโหนด)</a>
+      <a href="guides/food-system.html">ระบบอาหาร</a>
+    </nav>
+  </aside>
+
+  <main>
+    <div class="banner">
+      <h1>🐟 Fish Farm Festival</h1>
+      <p>ตกปลา ทำฟาร์ม ทำอาหาร แล่นเรือ… และเตรียมพร้อมเมื่อเรือรบอิลลาเจอร์ทอดสมออยู่หน้าชายฝั่ง</p>
+    </div>
+
+    <section id="overview">
+      <h2><span class="em">📖</span>ภาพรวมแพ็ค</h2>
+      <div class="infobox">
+        <h4>ข้อมูลแพ็ค</h4>
+        <table>
+          <tr><td>Minecraft</td><td>1.20.1</td></tr>
+          <tr><td>Loader</td><td>Fabric</td></tr>
+          <tr><td>จำนวนมอด</td><td>~100 ตัว</td></tr>
+          <tr><td>RAM แนะนำ</td><td>6–8 GB</td></tr>
+          <tr><td>Shader</td><td>รองรับ (Iris) — ไม่บังคับ</td></tr>
+          <tr><td>แนว</td><td>Cozy Survival / Vanilla+</td></tr>
+        </table>
+      </div>
+      <p>Fish Farm Festival คือแพ็คเซอร์ไวเวิลแนว <b>ผ่อนคลาย</b> ที่หัวใจอยู่ที่ <b>ทะเลและการตกปลา</b> แล้วแตกกิ่งไปสู่การทำครัว ทำฟาร์ม แปรรูปผลผลิต ตกแต่งบ้าน และสำรวจโลกที่สวยและเปลี่ยนไปตามฤดูกาล</p>
+      <p>คุณเริ่มต้นด้วยเบ็ดตกปลากับที่ดินผืนเล็กริมทะเล ไม่กี่สัปดาห์ในเกมต่อมา คุณจะมีเรือของตัวเอง กำแพงตู้ปลา ครัวที่มีสูตรอาหารนับร้อย ไร่องุ่น โรงเบียร์ และบอร์ดเควสต์ที่มีงานจากชาวบ้านรอทุกเช้า — แต่ทะเลไม่ได้มีแค่ปลา บางคืน…ใบเรือสีดำจะปรากฏที่ขอบฟ้า</p>
+      <div class="callout"><b>เหมาะกับใคร:</b> คนที่ชอบเกมชิลๆ (ตกปลา ทำฟาร์ม ทำอาหาร สร้างบ้าน) และกลุ่มเพื่อนที่อยากแบ่งหน้าที่กัน — คนตกปลา คนทำอาหาร คนสู้ · <b>ไม่เหมาะ</b>กับสายเทค/ออโตเมชัน หรือสายตีบอสล้วนๆ</div>
+    </section>
+
+    <section id="start">
+      <h2><span class="em">🚀</span>เริ่มเล่นวันแรก</h2>
+      <ol>
+        <li><b>หาชายฝั่ง</b> — ตั้งฐานใกล้ทะเลหรือแม่น้ำ เพราะทุกอย่างเริ่มจากการตกปลา</li>
+        <li><b>ทำเบ็ดแล้วตกปลา</b> — ปลาคืออาหารด่านแรกและวัตถุดิบทำเมนูทะเล</li>
+        <li><b>ปลูกผักเล็กๆ</b> — เริ่มระบบครัว (Farmer's Delight) และระบบโภชนาการ (Diet)</li>
+        <li><b>นอนด้วยถุงนอน</b> — พกถุงนอน/เปลญวน (Comforts) ออกสำรวจได้โดยไม่ต้องตั้ง spawn ใหม่</li>
+        <li><b>รับเควสต์แรก</b> — หาบอร์ด Bounty ในหมู่บ้าน เริ่มส่งของแลกรางวัล</li>
+      </ol>
+      <div class="callout"><b>เคล็ดลับ:</b> แพ็คนี้ <b>ไม่มีวาร์ป/เทเลพอร์ต</b> — การเดินทางไกลใช้เรือ (Small Ships) เป็นหลัก วางแผนตั้งฐานริมน้ำจะสะดวกสุด</div>
+    </section>
+
+    <section id="fishing">
+      <h2><span class="em">🎣</span>ตกปลา &amp; ทะเล</h2>
+      <p>ระบบตกปลาถูกยกเครื่องใหม่หมด — เบ็ด เหยื่อ อุปกรณ์ และปลาที่จับได้จะ<b>เปลี่ยนไปตามไบโอม ความลึก และเวลา</b></p>
+      <table class="data">
+        <tr><th>สิ่งที่ทำได้</th><th>รายละเอียด</th></tr>
+        <tr><td>ระบบตกปลาใหม่ (Tide)</td><td>ปลากว่า 100 ชนิด + เหยื่อ/อุปกรณ์ ตกได้ของหายากและสมบัติ</td></tr>
+        <tr><td>สัตว์ทะเลหลากหลาย (Hybrid Aquatic)</td><td>ตั้งแต่ปลาน้ำจืดตัวเล็กจนถึงสัตว์ทะเลลึกที่ไม่อยากเจอตอนกลางคืน</td></tr>
+        <tr><td>ตู้ปลา (Better Fish Tanks)</td><td>โชว์ปลาหายาก ตกแต่งตู้ ให้อาหารปลาได้ ต่อตู้เชื่อมกันเป็นกำแพงได้</td></tr>
+        <tr><td>เรือแล่นได้ (Small Ships)</td><td>ต่อเรือจริง ออกทะเลสำรวจ ทะเลคือถนนของคุณ</td></tr>
+      </table>
+      <div class="callout warn"><b>ระวัง:</b> กลางทะเลลึกอาจเจอ <b>เรือรบอิลลาเจอร์</b> — ดูหัวข้อ <a href="#combat">การต่อสู้</a></div>
+    </section>
+
+    <section id="cooking">
+      <h2><span class="em">🍳</span>ครัว &amp; อาหาร &amp; โภชนาการ</h2>
+      <p>ระบบทำอาหารครบวงจร — เมนูอาหารทะเล เบเกอรี และอาหารจานหลักนับไม่ถ้วน จาก Farmer's Delight และส่วนเสริมอีกหลายตัว (Ocean's / Expanded / Hearth &amp; Home / Hunger's Delight)</p>
+      <h3>ระบบโภชนาการ (Diet) — กินให้เป็น</h3>
+      <p>อาหารแบ่งเป็นกลุ่ม (ผัก ผลไม้ โปรตีน ธัญพืช ฯลฯ) <b>กินให้สมดุลจะได้รางวัลจริง</b> เช่น เลือดมากขึ้น ตีแรงขึ้น — กินสเต๊กอย่างเดียวไม่พออีกต่อไป</p>
+      <table class="data">
+        <tr><th>ค่าที่ปรับให้แล้ว (Diet)</th><th>ผล</th></tr>
+        <tr><td>โทษเมื่อตาย</td><td>เบาลง (เสียแค่ 40% ของค่าที่มี ไม่ใช่หักดิบ)</td></tr>
+        <tr><td>กินหลายกลุ่มพร้อมกัน</td><td>แทบไม่โดนหักค่า — กินมื้อใหญ่ได้สบาย</td></tr>
+      </table>
+      <div class="callout"><b>ทำไมต้องทำอาหารดีๆ:</b> ยิ่งเมนูหลากหลายและสมดุล ยิ่งได้บัฟ + เพิ่มหลอดอิ่มถาวร (Spice of Fabric) — การทำครัวจึงคุ้มค่าจริง</div>
+    </section>
+
+    <section id="farming">
+      <h2><span class="em">🌾</span>ฟาร์ม &amp; การแปรรูป</h2>
+      <p>ผลผลิตจากฟาร์มไม่ได้มีไว้แค่กิน — <b>แปรรูปเป็นสินค้ามูลค่าสูง</b>ได้:</p>
+      <table class="data">
+        <tr><th>วัตถุดิบ</th><th>แปรรูปเป็น</th><th>มาจาก</th></tr>
+        <tr><td>องุ่น</td><td>ไวน์</td><td>Let's Do: Vinery</td></tr>
+        <tr><td>ข้าวบาร์เลย์/พืช</td><td>เบียร์ &amp; เครื่องดื่ม</td><td>Let's Do: Brewery</td></tr>
+        <tr><td>นม/ผลผลิตฟาร์ม</td><td>ชีส &amp; ของฟาร์ม</td><td>Let's Do: Farm &amp; Charm</td></tr>
+        <tr><td>ธัญพืช</td><td>ขนมปัง/เบเกอรี</td><td>Let's Do: Bakery</td></tr>
+      </table>
+      <h3>ทำฟาร์มให้ลื่น (Farming for Blockheads)</h3>
+      <p>มีบล็อก <b>Market</b> ไว้ซื้อเมล็ด/ผลผลิตที่หายากในป่าด้วยมรกต และมีระบบปุ๋ยช่วยให้ฟาร์มโตเร็วขึ้น</p>
+    </section>
+
+    <section id="economy">
+      <h2><span class="em">🎪</span>เศรษฐกิจ &amp; เควสต์</h2>
+      <ul>
+        <li><b>บอร์ด Bounty</b> — ชาวบ้านลงงานใหม่ทุกวัน ส่งของตามที่ขอ รับรางวัล (เหมาะกับผู้เล่นสายฟาร์ม/ตกปลาที่มีของเหลือ)</li>
+        <li><b>อาชีพชาวบ้านใหม่ (Villagers Plus)</b> + ระบบเทรดที่ลื่นขึ้น (Villager Trading Plus)</li>
+        <li><b>ตลาดเมล็ดพันธุ์</b> — ซื้อพืชที่หาในป่าไม่ได้ด้วยมรกต</li>
+        <li><b>พ่อค้าก็อบลิน (Goblin Traders)</b> — โผล่ในถ้ำ มีของแปลกๆ ขาย</li>
+      </ul>
+    </section>
+
+    <section id="seasons">
+      <h2><span class="em">🍂</span>ฤดูกาล (Serene Seasons)</h2>
+      <p>โลกมี <b>ฤดูกาลจริง</b> — สีของต้นไม้เปลี่ยน อุณหภูมิเปลี่ยน และ<b>พืชแต่ละชนิดโตได้ในฤดูที่ต่างกัน</b> ฤดูหนาวต้องวางแผนล่วงหน้า (และมีคอนเทนต์หน้าหนาว/เลื่อนหิมะจาก Snowy Spirit)</p>
+      <div class="callout"><b>เคล็ดลับ:</b> เช็กว่าพืชที่จะปลูกเหมาะกับฤดูปัจจุบันไหม ไม่งั้นอาจโตช้าหรือไม่โต</div>
+    </section>
+
+    <section id="combat">
+      <h2><span class="em">⚔️</span>การต่อสู้ &amp; เรือรบอิลลาเจอร์</h2>
+      <p>ในแพ็คนี้อิลลาเจอร์ตัวใหม่ที่แข็งแกร่ง <b>ถูกปรับให้ไม่มาบุกหมู่บ้าน (raid) และไม่เกิดสุ่มใกล้ผู้เล่น</b> — คุณจะเจอพวกมันได้เฉพาะเมื่อออกไป<b>ตามหาถึงถิ่นของมันเอง</b></p>
+      <table class="data">
+        <tr><th>จุดที่เจอศัตรูหนัก</th><th>รายละเอียด</th></tr>
+        <tr><td>เรือรบอิลลาเจอร์ (Illager Warship)</td><td>ลาดตระเวนกลางทะเล — ลูกเรือคืออิลลาเจอร์ตัวเก่ง (marauder, inquisitor, basher, provoker)</td></tr>
+        <tr><td>โครงสร้างของ Illager Invasion</td><td>ป้อม/หอคอย/labyrinth ที่ต้องออกสำรวจถึงจะเจอ</td></tr>
+        <tr><td>ดันเจียน &amp; โรงเตี๊ยม</td><td>กระจายอยู่ทั่วโลก มีของรางวัลให้เก็บ</td></tr>
+      </table>
+      <div class="callout"><b>คอนเซ็ปต์:</b> ชีวิตประจำวันสงบสุข (ตกปลา ทำฟาร์ม) แต่ถ้าอยากลุ้น ให้ออกทะเลไปท้าเรือรบ — ความอันตรายเป็นทางเลือก ไม่ใช่สิ่งที่มาหาคุณเอง</div>
+    </section>
+
+    <section id="skills">
+      <h2><span class="em">🎒</span>สกิล &amp; ไอเทมติดตัว</h2>
+      <ul>
+        <li><b>สกิลทรี RPG (Puffish's Skills)</b> — เก็บ XP แล้วเลือกทางพัฒนาตัวละคร</li>
+        <li><b>กระเป๋าเป้ (Backpacked)</b> — เพิ่มช่องเก็บของสำหรับเดินทางไกล มีระบบปลดล็อก</li>
+        <li><b>ช่องเครื่องประดับ (Trinkets)</b> — ใส่ของเสริมเพิ่มความสามารถ</li>
+        <li><b>ถุงนอน/เปลญวน (Comforts)</b> — นอนที่ไหนก็ได้โดยไม่เปลี่ยนจุดเกิด</li>
+      </ul>
+    </section>
+
+    <section id="world">
+      <h2><span class="em">🌍</span>สำรวจโลก</h2>
+      <p>ภูมิประเทศถูกยกเครื่องใหม่ (Terralith) — ภูเขาสูงตระหง่าน หุบเขาลึก ชายฝั่งสวยจนต้องหยุดถ่ายรูป มีไบโอมใหม่เกือบ 100 แบบด้วยบล็อกวานิลลา</p>
+      <ul>
+        <li>สัตว์ใหม่ เช่น ปู เพนกวิน และอื่นๆ (Ecologics)</li>
+        <li>ปราสาท/หมู่บ้านมีป้อม (Fortified Village) และโครงสร้างให้สำรวจมากมาย</li>
+      </ul>
+    </section>
+
+    <section id="build">
+      <h2><span class="em">🏡</span>สร้าง ตกแต่ง &amp; จัดเก็บ</h2>
+      <ul>
+        <li><b>ของตกแต่งนับร้อย</b> — เฟอร์นิเจอร์ ประตู หน้าต่าง สะพาน รั้ว ไฟ (ชุด Macaw's) + Dusty Decorations + Hearth &amp; Home</li>
+        <li><b>ระบบจัดเก็บ (Tom's Storage)</b> — หาของทุกอย่างจากจอเดียว ไม่ต้องเปิดหีบทีละใบอีกต่อไป</li>
+      </ul>
+    </section>
+
+    <section id="performance">
+      <h2><span class="em">🚀</span>ตั้งค่า &amp; FPS</h2>
+      <p>แพ็คปรับแต่งประสิทธิภาพมาให้แล้ว (Sodium, Lithium ฯลฯ) รันลื่นแม้มอดเยอะ แต่ถ้า FPS ตก ให้ทำตามนี้:</p>
+      <table class="data">
+        <tr><th>วิธี</th><th>ผล</th></tr>
+        <tr><td>ปิด Shader (กด K หรือ Video Settings → Shader Packs → none)</td><td>ได้ FPS คืนมากสุด — Shader คือตัวกิน FPS อันดับ 1</td></tr>
+        <tr><td>ลด Render Distance เป็น 8–10</td><td>ลดแล็กตอนสำรวจ</td></tr>
+        <tr><td>ลด Simulation Distance เป็น 8</td><td>ลดภาระ CPU</td></tr>
+        <tr><td>ถ้าใช้ Shader: ลด Profile เป็น Medium/Low + Shadow 1024</td><td>เล่น Shader ได้ FPS ดีขึ้น</td></tr>
+      </table>
+      <div class="callout"><b>เครื่องสเปกเบา:</b> แค่ปิด Shader ก็เล่นลื่นแล้ว — Shader เป็นของเสริม ไม่บังคับ</div>
+    </section>
+
+    <section id="faq">
+      <h2><span class="em">❓</span>ปัญหาที่พบบ่อย (FAQ)</h2>
+
+      <h3>ขึ้นหน้า "Worlds using Experimental Settings are not supported"</h3>
+      <p><b>เป็นเรื่องปกติ ไม่ใช่บั๊ก</b> — เกิดเพราะแพ็คใช้ worldgen แบบ custom กด <b>"Create Backup and Load"</b> ได้เลย (อย่ากด Cancel) คำเตือนนี้จะขึ้นทุกครั้งที่เปิดโลก กดผ่านได้ตลอด</p>
+
+      <h3>เกม crash หลังกด "Update" มอดในแอป CurseForge</h3>
+      <p>อย่ากด Update ที่ <b>Fabric Language Kotlin</b> หรือ <b>JEI</b> เพราะตัวใหม่ต้องการ Fabric Loader เวอร์ชันสูงกว่าที่แพ็คใช้ ทำให้ชนกัน — ปล่อยเวอร์ชันในแพ็คไว้ตามเดิม</p>
+
+      <h3>FPS ต่ำ</h3>
+      <p>ปิด Shader ก่อนเป็นอันดับแรก (ดูหัวข้อ <a href="#performance">ตั้งค่า &amp; FPS</a>)</p>
+
+      <h3>ต่อเซิร์ฟเวอร์ไม่ได้ / "registry entries unknown"</h3>
+      <p>แปลว่ามอดฝั่งคุณกับเซิร์ฟเวอร์ไม่ตรงกัน — ตรวจว่าใช้เวอร์ชันแพ็คเดียวกับเซิร์ฟเวอร์ และอัปเดตแพ็คให้เป็นเวอร์ชันล่าสุด</p>
+
+      <h3>อยากเล่นกับเพื่อน</h3>
+      <p>ทุกคนต้องลงโมดแพ็คเวอร์ชันเดียวกันจาก CurseForge แล้วต่อเข้าเซิร์ฟเวอร์ที่ลงแพ็คชุดเดียวกัน</p>
+    </section>
+
+    <section id="guides">
+      <h2>📚 คู่มือเชิงลึก</h2>
+      <p>เอกสารเจาะลึกแต่ละระบบ เปิดแยกหน้า:</p>
+      <ul>
+        <li><a href="guides/skill-tree.html">คู่มือ Skill Tree — รายละเอียดทุกโหนดทั้ง 3 สาย</a></li>
+        <li><a href="guides/food-system.html">ระบบอาหาร — วิธีทำงานและเคล็ดลับ</a></li>
+      </ul>
+    </section>
+
+    <footer>
+      Fish Farm Festival · Minecraft 1.20.1 Fabric · คู่มือผู้เล่น (อัปเดต 2026)
+    </footer>
+  </main>
+</div>
+<script>
+  (function(){
+    var btn=document.getElementById('tocBtn'), nav=document.getElementById('nav');
+    if(btn&&nav){ btn.addEventListener('click',function(){ nav.classList.toggle('open'); }); }
+    nav&&nav.addEventListener('click',function(e){ if(e.target.tagName==='A'&&window.innerWidth<=820) nav.classList.remove('open'); });
+  })();
+</script>
+</body>
+</html>

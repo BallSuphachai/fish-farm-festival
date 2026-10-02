@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FFF Progression Design</title>
+<style>
+  :root{--bg:#f6f1e7;--card:#fffdf8;--ink:#2a241c;--muted:#6d6456;--line:#e3d9c6;--accent:#b5541f;--chip:#efe7d6;--a:#1f7fb8;--f:#4d8a2f;--c:#b8621a;--adv:#7a3fa0;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--accent:#e2854a;--chip:#2c261e;--a:#5bb0e3;--f:#8ccc6a;--c:#e2955a;--adv:#c38ae6;}}
+  :root[data-theme="dark"]{--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--accent:#e2854a;--chip:#2c261e;--a:#5bb0e3;--f:#8ccc6a;--c:#e2955a;--adv:#c38ae6;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,"Sarabun","Noto Sans Thai",sans-serif;line-height:1.65}
+  .wrap{max-width:1000px;margin:0 auto;padding:32px 16px 80px}
+  h1{font-size:1.8rem;margin:0 0 4px} .sub{color:var(--muted);margin:0 0 24px}
+  h2{font-size:1.25rem;margin:36px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+  h3{font-size:1.05rem;margin:0 0 6px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin:14px 0}
+  .k{border-left:5px solid var(--c)}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.88rem}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--chip);font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+  .tbl{overflow-x:auto}
+  code{background:var(--chip);padding:1px 6px;border-radius:5px;font-size:.85em;font-family:ui-monospace,Consolas,monospace;word-break:break-all}
+  .callout{border-left:4px solid var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent);border-radius:0 10px 10px 0;padding:12px 16px;margin:14px 0}
+  .warn{--accent:#c0442f} .ok{--accent:#2f8a5c}
+  .loop{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:16px 0}
+  .node{padding:8px 14px;border-radius:12px;font-weight:700;border:2px solid var(--b);color:var(--b);background:var(--card)}
+  .arrow{color:var(--muted);font-weight:700}
+  ul{padding-left:22px;margin:6px 0} li{margin:3px 0}
+  .small{font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🔗 FFF — เชื่อมวงจรเล่น (ข้อ 8, 10, 11)</h1>
+<p class="sub">เอกสารออกแบบเพื่อรีวิวก่อนลงมือ · ต้นไม้สกิลมีทางตัน / ของที่ทำแล้วไม่มีที่ไป (Chef) / การผจญภัยแยกขาดจากวงจรหลัก</p>
+
+<div class="callout ok"><b>สถานะ (สร้างแล้วทุกเฟส ยกเว้น 8.4 หอเทศกาล):</b> <code>fff-progression-1.0.0.jar</code> (บัฟอาหาร, ของปล้นจากการผจญภัย, เหยื่อ Tide, perk ของต้นไม้สกิล, Mastery Crate) · ต้นไม้สกิล 3 ต้นแก้ใน <code>config/puffish_skills</code> (HP รวม +20, Armor +8; สำรองไฟล์เดิมเป็น <code>definitions.json.bak_v2</code>) · Journey เพิ่ม 6 ขั้น · Bounty เพิ่มใบประกาศ Town Guard · ทดสอบบนเซิร์ฟเวอร์ที่ลงมอดครบ: โหลดได้ไม่มี error</div>
+<h2>ภาพรวม: ทำให้ 3 สายกับการผจญภัยป้อนกันเป็นวง</h2>
+<div class="loop">
+  <span class="node" style="--b:var(--adv)">⚔ ผจญภัย<br><span class="small">Warship · Illager · D&amp;T</span></span><span class="arrow">→ เหยื่อพิเศษ / เมล็ดหายาก →</span>
+  <span class="node" style="--b:var(--a)">🎣 Angler<br><span class="small">ปลาตำนาน</span></span><span class="arrow">→ วัตถุดิบ →</span>
+  <span class="node" style="--b:var(--c)">🍳 Chef<br><span class="small">อาหารให้บัฟ</span></span><span class="arrow">→ บัฟต่อสู้ / Luck →</span>
+  <span class="node" style="--b:var(--adv)">⚔ ผจญภัย</span>
+</div>
+<p class="small" style="text-align:center">Farmer ป้อนวัตถุดิบให้ Chef · เมล็ดหายากได้จากการผจญภัย (ในร้าน Market แพงมาก) · ต้นไม้สกิลที่ตันแล้วแปลงแต้มเป็นรางวัลได้ไม่รู้จบ</p>
+
+<h2>ปัญหาที่เจอระหว่างวิเคราะห์ (ต้องบอกก่อน)</h2>
+<div class="callout warn">
+<b>สเตตัสจากต้นไม้สกิลแรงเกินไปมาก จนทำให้การต่อสู้ไม่มีความหมาย</b> — ถ้าปลดครบ 3 ต้น ผู้เล่นได้ <b>HP +58 (เพิ่ม 29 หัวใจ)</b> และ <b>Armor +28</b> (Armor ในเกมตันที่ 30 ใส่ชุดเพชรก็ตันแล้ว) Illager ใน Warship จะตีไม่เข้า ทำให้ข้อ 11 ล้มเหลวตั้งแต่ต้น<br>
+<span class="small">แยกตามต้น: Angler HP+12 / Armor+7 · Farmer HP+22 / Armor+9 · Chef HP+24 / Armor+12</span>
+</div>
+<div class="callout warn">
+<b>Farmer กับ Chef แทบไม่มีเอกลักษณ์</b> — โหนดส่วนใหญ่เป็น "HP +2" หรือ "Armor +1" สลับกัน หรือ "ได้ของทันที 1 ครั้ง" (ขนมปัง 32 ชิ้น, เนื้อ 16 ชิ้น) เล่นไปแล้วไม่รู้สึกว่าเป็นเชฟหรือชาวนาเก่งขึ้นเลย
+</div>
+
+<h2>8 · ต้นไม้สกิลมีทางตัน</h2>
+<div class="card k">
+<h3>8.1 Mastery — แต้มเกินไม่สูญเปล่าอีกต่อไป</h3>
+<ul>
+<li>หลังปลดโหนดสุดท้าย (capstone) แต้มสกิลที่ได้เพิ่มแต่ละแต้ม กดแลกเป็น <b>Mastery Crate</b> ประจำสายได้ ผ่านลิงก์ในแชต ไม่ต้องใช้คำสั่งแอดมิน</li>
+<li>ระบบถามก่อนแลกทุกครั้ง แต้มจะไม่ถูกหักอัตโนมัติ</li>
+<li>Crate ของแต่ละสาย:
+  <ul>
+  <li><b>Angler Crate:</b> เหยื่อพิเศษ, ตะขอ/สายเบ็ดระดับสูง, บางครั้งได้ Festival Token</li>
+  <li><b>Farmer Crate:</b> ปุ๋ย, <b>เมล็ดหรือกล้าหายาก</b> (ตัวเดียวกับที่ใน Market ขายแพงมาก)</li>
+  <li><b>Chef Crate:</b> วัตถุดิบหายาก, อาหารระดับ Feast</li>
+  </ul>
+</li>
+<li>มี Mastery Level นับแยกแต่ละสาย พร้อม advancement ที่ Mastery 10 / 25 / 50</li>
+</ul>
+</div>
+<div class="card k">
+<h3>8.2 ให้แต่ละสายมีเอกลักษณ์ (แทนโหนด HP/Armor ประมาณครึ่งหนึ่ง)</h3>
+<div class="tbl"><table>
+<tr><th>สาย</th><th>โหนดใหม่ (ตัวอย่าง)</th></tr>
+<tr><td>🍳 Chef</td><td><b>Seasoned Cook</b> บัฟจากอาหารนานขึ้น 50% · <b>Banquet Host</b> กินอาหาร Feast แล้วบัฟแชร์ให้คนรอบตัว · <b>Spice Master</b> บัฟอาหารแรงขึ้น 1 ระดับ · Iron Stomach (มีอยู่แล้ว)</td></tr>
+<tr><td>🌾 Farmer</td><td><b>Bountiful Harvest</b> เก็บพืช 64 ชิ้น ได้ Harvest Crate 1 กล่อง · <b>Seed Saver</b> มีโอกาสได้เมล็ดหายากคืนจาก Crate · <b>Market Regular</b> ได้ส่วนลดเป็นมรกตคืนทุกสัปดาห์ในเกม</td></tr>
+<tr><td>🎣 Angler</td><td>มีธีมชัดอยู่แล้ว (Luck, ว่ายน้ำ, ดำน้ำ) · เพิ่ม <b>Bait Whisperer</b> เหยื่อพิเศษได้ผลแรงขึ้น</td></tr>
+</table></div>
+</div>
+<div class="card k">
+<h3>8.3 ลดสเตตัสที่แรงเกินไป</h3>
+<p>ลด HP รวมจาก +58 เหลือประมาณ <b>+20</b> และ Armor จาก +28 เหลือประมาณ <b>+8</b> แล้วใช้โหนดเอกลักษณ์ใน 8.2 แทน ผู้เล่นที่ปลดไปแล้วจะถูกปรับค่าตามทันทีหลังรีสตาร์ท</p>
+</div>
+<div class="card k">
+<h3>8.4 หอเทศกาล (ต้นที่ 4 ตามเอกสารออกแบบเดิม) — ทำทีหลัง</h3>
+<p>ปลดล็อกเมื่อผ่าน capstone ครบทั้ง 3 สาย เช่น พ่อค้าเทศกาลเรียกได้เร็วขึ้น, Treasure สุ่มได้ 3 ช่อง, ได้ token เพิ่ม · <span class="small">เสนอให้ทำหลังระบบอื่นในเอกสารนี้เสร็จ</span></p>
+</div>
+
+<h2>10 · ของที่ Chef ทำแล้วไม่มีที่ไป</h2>
+<div class="card k">
+<h3>10.1 อาหารให้บัฟตามหมวด (หัวใจของข้อนี้)</h3>
+<div class="tbl"><table>
+<tr><th>หมวดอาหาร</th><th>บัฟ</th><th>ใช้ทำอะไร</th></tr>
+<tr><td>🐟 อาหารทะเล (ซูชิ, สตูว์ปลา, fugu roll…)</td><td><b>Luck</b> + หายใจใต้น้ำ</td><td>Luck ของ Tide มีผลกับปลาหายาก เช่น Midas Fish ต้องใช้ Luck ≥ 5 → <b>Chef ช่วย Angler</b></td></tr>
+<tr><td>🍲 สตูว์ / ซุป / เนื้อ</td><td>Strength + Resistance</td><td>บุก Warship / ต่อสู้ Illager → <b>Chef ช่วยการผจญภัย</b></td></tr>
+<tr><td>🍰 ของหวาน / น้ำผลไม้</td><td>Speed + Haste</td><td>ฟาร์ม ขุด ก่อสร้างเร็วขึ้น → <b>Chef ช่วย Farmer</b></td></tr>
+<tr><td>🍗 Feast (ทั้งถาด)</td><td>บัฟชุดใหญ่ + แชร์ให้คนรอบตัว</td><td>เตรียมทีมก่อนออกผจญภัย</td></tr>
+</table></div>
+<p class="small">ระดับบัฟขึ้นกับความยากของเมนู (simple / basic / complex / gourmet ตาม bounty v3) · บัฟหมวดเดียวกันไม่ทบกัน</p>
+</div>
+<div class="card k">
+<h3>10.2 ที่ไปเดิมยังอยู่</h3>
+<p>ขายให้ชาวบ้าน Butcher · ส่ง Bounty · ส่งพ่อค้าเทศกาล · Chef XP ซึ่งตอนนี้ได้จากการ <i>กิน</i> เท่านั้น ข้อนี้ผมเสนอให้เพิ่ม XP จากการทำอาหาร (เก็บจานจาก Cooking Pot) ด้วย</p>
+</div>
+
+<h2>11 · การผจญภัยเชื่อมกับวงจรหลัก</h2>
+<div class="card k">
+<h3>11.1 ของดรอปจาก Illager กลายเป็นเหยื่อพิเศษของ Tide</h3>
+<p>ระบบเหยื่อของ Tide ตั้งค่าได้ด้วยไฟล์ข้อมูล จึงใช้ไอเท็มที่มีอยู่แล้วเป็นเหยื่อได้เลย:</p>
+<div class="tbl"><table>
+<tr><th>ไอเท็ม (มาจาก)</th><th>เป็นเหยื่อ</th></tr>
+<tr><td>Primal Essence (Invoker)</td><td>Luck +4 · <b>ทางไปปลาตำนาน</b></td></tr>
+<tr><td>Illusionary Dust (Illusioner)</td><td>Luck +2 · กินเบ็ดเร็ว +2</td></tr>
+<tr><td>Unusual Dust (Sorcerer)</td><td>Luck +1 · กินเบ็ดเร็ว +3</td></tr>
+<tr><td>Hallowed Gem / Platinum</td><td>ใช้ในสูตรคราฟต์อุปกรณ์ Tide ระดับสูง (สายเบ็ด / ตะขอ) เป็นทางเลือกแทนเพชร</td></tr>
+</table></div>
+</div>
+<div class="card k">
+<h3>11.2 Illager Warship = ปล้นคลังเรือ</h3>
+<ul>
+<li>ฆ่า Illager <b>ภายในเขตเรือ Warship</b> มีโอกาสได้ของปล้นเข้ากระเป๋าโดยตรง: เหยื่อพิเศษ, ตะขอ Tide ระดับสูง (Void / Twilight Hook), Festival Token, เมล็ดหายาก</li>
+<li>เคลียร์เรือครั้งแรกได้ advancement "Sink the Warship" ใน Journey</li>
+</ul>
+</div>
+<div class="card k">
+<h3>11.3 Dungeons &amp; Taverns = แหล่งเมล็ดหายากและสูตรลับ</h3>
+<p>เปิดหีบในสิ่งก่อสร้างของ D&amp;T แล้วได้ของแถมจากตาราง FFF (ของเดิมในหีบยังได้ตามปกติ):</p>
+<ul>
+<li>ห้องตกปลาใน Illager Hideout → เหยื่อพิเศษ</li>
+<li>ห้องครัว / เสบียง → เมล็ดและกล้าหายาก (ปลูกเองได้ ไม่ต้องจ่าย Market แพงๆ)</li>
+<li>Conduit Ruin → กล่อง Tide และคันเบ็ด</li>
+<li>หีบรางวัลเควสของ Tavern → Festival Token + ของหายาก</li>
+</ul>
+</div>
+<div class="card k">
+<h3>11.4 Bounty สายที่ 4: Guard (ทางเลือก)</h3>
+<p>บอร์ดเควสเพิ่มเควสล่า Illager / ส่ง Primal Essence ได้รางวัลตามสเกลเศรษฐกิจเดิม</p>
+</div>
+
+<h2>ข้อจำกัดทางเทคนิค (ตรงๆ)</h2>
+<div class="callout warn">
+<ul>
+<li><b>ถ้าทำเป็น data-mod อย่างเดียว จะสร้างไอเท็มใหม่จริงๆ ไม่ได้</b> เหยื่อพิเศษ วัตถุดิบหายาก และสูตรลับ ต้องใช้ไอเท็มที่มีอยู่แล้วในแพ็ก (ไอเท็มของ Illager Invasion, Tide, Hybrid Aquatic) และสูตรคราฟต์ให้ผลเป็นไอเท็มที่มี NBT ไม่ได้
+  <br>ถ้าอยากได้ไอเท็มใหม่ที่มีชื่อและรูปของตัวเอง เช่น "Kraken Ink" หรือ "Captain's Spice" ต้องเขียน mod Java จริง ซึ่งใช้เวลามากกว่าหลายเท่า และผมต้องวาด texture เองแบบง่ายๆ</li>
+<li>ของดรอปจากการฆ่า Illager และของแถมจากหีบ จะ<b>เข้ากระเป๋าผู้เล่นโดยตรง</b> ไม่ได้หล่นลงพื้น เพื่อไม่ต้องเขียนทับไฟล์ของมอดอื่น (ไม่ชนกัน อัปเดตมอดได้)</li>
+<li>บัฟจากอาหารให้ผ่าน advancement ตอนกิน ใช้กับอาหารจากมอดได้ทุกตัว แต่คำอธิบายบัฟจะไม่ขึ้นใน tooltip ของอาหาร (ต้องเขียนไว้ในไกด์หรือ Journey แทน)</li>
+</ul>
+</div>
+
+<h2>ลำดับที่เสนอ</h2>
+<div class="tbl"><table>
+<tr><th>เฟส</th><th>งาน</th><th>เหตุผล</th></tr>
+<tr><td><b>1</b></td><td>8.3 ลดสเตตัส + 10.1 บัฟอาหาร + 11.1 เหยื่อจาก Illager</td><td>เป็นแกนของวง ถ้าไม่ลดสเตตัสก่อน การต่อสู้กับบัฟอาหารจะไร้ความหมาย</td></tr>
+<tr><td><b>2</b></td><td>11.2 Warship + 11.3 D&amp;T + 8.1 Mastery</td><td>เพิ่มเหตุผลให้ออกผจญภัยและเล่นต่อหลัง capstone</td></tr>
+<tr><td><b>3</b></td><td>8.2 โหนดเอกลักษณ์ + 11.4 Guard Bounty</td><td>ปรับต้นไม้สกิลใหม่ทั้งต้น ต้องให้คุณเห็นรายชื่อโหนดก่อน</td></tr>
+<tr><td>ทีหลัง</td><td>8.4 หอเทศกาล</td><td>endgame</td></tr>
+</table></div>
+
+</div>
+</body>
+</html>

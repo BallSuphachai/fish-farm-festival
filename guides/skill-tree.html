@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>คู่มือ Skill Tree FFF</title>
+<style>
+  :root{--bg:#f6f1e7;--card:#fffdf8;--ink:#2a241c;--muted:#6d6456;--line:#e3d9c6;--chip:#efe7d6;--hi:#c0442f;--md:#b8860b;--lo:#2f8a5c;--code:#f0e8d6;
+        --angler:#2f6f8a;--farmer:#2f8a5c;--chef:#b8860b}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--chip:#2c261e;--hi:#ef6a5a;--md:#e0b64a;--lo:#6cc592;--code:#2c261e;--angler:#6cb8d6;--farmer:#6cc592;--chef:#e0b64a}}
+  :root[data-theme="dark"]{--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--chip:#2c261e;--hi:#ef6a5a;--md:#e0b64a;--lo:#6cc592;--code:#2c261e;--angler:#6cb8d6;--farmer:#6cc592;--chef:#e0b64a}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,"Sarabun","Noto Sans Thai",sans-serif;line-height:1.7}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 16px 80px}
+  h1{font-size:1.85rem;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 24px}
+  h2{font-size:1.25rem;margin:36px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+  h3{font-size:1.08rem;margin:22px 0 4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--chip);font-size:.78rem;color:var(--muted)}
+  td.c{text-align:center;white-space:nowrap}
+  .branch td{background:var(--chip);font-weight:700;font-size:.85rem}
+  code{background:var(--code);padding:2px 7px;border-radius:6px;font-size:.88em;font-family:ui-monospace,Consolas,monospace}
+  .formula{display:block;background:var(--code);border:1px solid var(--line);border-radius:8px;padding:11px 14px;margin:8px 0;font-family:ui-monospace,Consolas,monospace;font-size:.9rem;overflow-x:auto}
+  ul{margin:8px 0;padding-left:22px} li{margin:5px 0}
+  .small{font-size:.85rem;color:var(--muted)}
+  b{color:var(--ink)}
+  .lead{border-left:4px solid var(--hi);padding:10px 14px;background:var(--card);border-radius:0 10px 10px 0;margin:0 0 20px}
+  .pill{display:inline-block;font-size:.68rem;font-weight:700;padding:1px 7px;border-radius:20px;color:#fff;white-space:nowrap}
+  .one{background:var(--md)} .buff{background:var(--lo)} .stat{background:#7a6f5c} .sys{background:#5a7a9a} .star{background:var(--hi)}
+  .ha{color:var(--angler)} .hf{color:var(--farmer)} .hc{color:var(--chef)}
+  .legend span{margin-right:12px;white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🌳 คู่มือระบบ Skill Tree — Fish Farm Festival</h1>
+<p class="sub">รายละเอียดทุกโหนด อ้างอิงจากไฟล์ตั้งค่าจริงบนเซิร์ฟเวอร์ · เวอร์ชัน 1.3.1</p>
+
+<p class="lead"><b>ภาพรวม:</b> มีต้นสกิล 3 สายแยกกัน — <b class="ha">🎣 Angler</b>, <b class="hf">🌾 Farmer</b>, <b class="hc">🍳 Chef</b> ปลดล็อกได้ตั้งแต่เริ่มเกม มี EXP แยกคนละกอง กด <b>K</b> เปิดหน้าต่างสกิล ทุกเลเวลที่ขึ้นได้ 1 แต้ม · แต่ละสายมี 4 กิ่ง กิ่งละ 7 โหนด + ราก + ยอด รวม 61 แต้มถ้าปลดครบ</p>
+
+<h2>1. หลักการพื้นฐาน</h2>
+<div class="card">
+<ul>
+<li><b>3 สายอิสระ</b> เก็บ EXP/เลเวลของตัวเอง · <b>1 เลเวล = 1 แต้ม</b> · ปลดโหนดก่อนหน้าถึงจะต่อโหนดถัดไปได้</li>
+<li><b>ราคาแต้มตามความลึก:</b> ราก 1 · ต้นกิ่ง 1 · กลางกิ่ง 2 · ปลายกิ่ง 3 · ยอด 4</li>
+<li><b>ปรัชญา:</b> โหนดใกล้ราก = ของแจกครั้งเดียว (ตั้งตัวช่วงต้น) · โหนดลึก = บัฟ/ค่าสถานะถาวร · ปลายกิ่ง ★ และยอด 👑 = รางวัลใหญ่</li>
+</ul>
+<p class="small legend"><b>ประเภทโหนด:</b> <span><span class="pill one">ครั้งเดียว</span> ของแจก</span> <span><span class="pill buff">บัฟ</span> เอฟเฟกต์ตามเงื่อนไข</span> <span><span class="pill stat">ถาวร</span> ค่าสถานะ</span> <span><span class="pill sys">ระบบ</span> กลไกต่อเนื่อง</span> <span><span class="pill star">★ / 👑</span> ปลายกิ่ง / ยอด</span></p>
+</div>
+
+<h2>2. เก็บ EXP แต่ละสายยังไง</h2>
+<div class="card">
+<h3 class="ha">🎣 Angler</h3>
+<p>ตกปลาได้ทุกตัว: ธรรมดา <b>5</b> · Uncommon <b>8</b> · Rare <b>13</b> · Very Rare <b>23</b> · Legendary <b>45</b><br>
+โบนัสค้นพบสปีชีส์ใหม่ครั้งแรก: +8 / +12 / +20 / +30 / +60 ตามระดับ · สมบัติใต้น้ำ +25<br>
+ฆ่าสัตว์น้ำ: Drowned +4 · Guardian +6 · Elder Guardian +25 <span class="small">(จำกัด 8 ตัว/chunk ทุก 10 นาที)</span></p>
+<h3 class="hf">🌾 Farmer</h3>
+<p>ทุบพืชโตเต็มที่: vanilla +2 · มอด +3 · ข้าว/ข้าวโพด +4 · เก็บผลด้วยมือเปล่า +3 · ผสมพันธุ์สัตว์ +2 · ค้นพบพืชใหม่ +15<br>
+<span class="small">ทิ้งของแล้วเก็บ หรือปลูก-ทุบอ้อยรัวๆ ไม่ได้ EXP แล้ว</span></p>
+<h3 class="hc">🍳 Chef</h3>
+<p>กินอาหารจากมอดเท่านั้น ตามระดับเมนู: Simple <b>2</b> · Basic <b>4</b> · Complex <b>8</b> · Gourmet <b>14</b> · Feast <b>20</b> · ค้นพบเมนูใหม่ +5</p>
+</div>
+
+<h2>3. เส้นโค้งเลเวลและจังหวะการโต</h2>
+<div class="card">
+<span class="formula">EXP ที่ต้องใช้เลื่อนเลเวล = 60 + (เลเวล × 15) + (เลเวล² × 0.5)</span>
+<table>
+<tr><th>เป้าหมาย</th><th>EXP สะสมโดยประมาณ</th></tr>
+<tr><td>โหนดแรก (เลเวล 1)</td><td class="c">~60</td></tr>
+<tr><td>10 แต้ม</td><td class="c">~1,400</td></tr>
+<tr><td>20 แต้ม</td><td class="c">~5,500</td></tr>
+<tr><td>ครึ่งต้น (~31 แต้ม)</td><td class="c">~13,600</td></tr>
+<tr><td>เต็มต้น (61 แต้ม)</td><td class="c">~68,000</td></tr>
+</table>
+<p class="small">ครึ่งต้น ≈ จบปีแรกในเกม · เต็มต้น = เป้าหมายหลายปีในเกม · ช่วงต้นโตไวเพราะโบนัสค้นพบครั้งแรก</p>
+</div>
+
+<h2>4. รายละเอียดทุกโหนด</h2>
+
+<h3 class="ha">🎣 Angler — ราก: Cast Off <span class="pill stat">ถาวร</span> +1 หัวใจ</h3>
+<div class="card"><table>
+<tr><th>โหนด</th><th>แต้ม</th><th>ประเภท</th><th>ปลดแล้วได้อะไร</th></tr>
+<tr class="branch"><td colspan="4">กิ่ง 1 · สาย Luck (เพิ่มโอกาสของหายาก)</td></tr>
+<tr><td>Enchanted Rod</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>คันเบ็ด 1 อัน เอนแชนต์ <b>Lure II + Luck of the Sea II + Unbreaking II</b></td></tr>
+<tr><td>Night Angler</td><td class="c">1</td><td><span class="pill buff">บัฟ</span></td><td>ขณะตัวอยู่ในน้ำ ได้ <b>Night Vision</b> ต่อเนื่อง (มองใต้น้ำกลางคืนชัด)</td></tr>
+<tr><td>Steady Hands</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Luck +0.5 ถาวร</td></tr>
+<tr><td>Keen Eye</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Luck +0.5 ถาวร</td></tr>
+<tr><td>Lucky Lure</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Luck +1 ถาวร</td></tr>
+<tr><td>Fortune's Tide</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Luck +1 ถาวร</td></tr>
+<tr><td>Sea's Blessing</td><td class="c">3</td><td><span class="pill star">★ ถาวร</span></td><td>Luck +2 ถาวร (ปลายกิ่ง — รวมทั้งกิ่งนี้ให้ Luck +5)</td></tr>
+<tr class="branch"><td colspan="4">กิ่ง 2 · สายดำน้ำ</td></tr>
+<tr><td>Treasure Sense</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>Heart of the Sea ×1 (ไว้ทำ Conduit)</td></tr>
+<tr><td>Gills I</td><td class="c">1</td><td><span class="pill buff">บัฟ</span></td><td>หายใจใต้น้ำได้ขณะว่ายน้ำ (Water Breathing)</td></tr>
+<tr><td>Dolphin's Grace</td><td class="c">2</td><td><span class="pill buff">บัฟ</span></td><td>ได้ <b>Dolphin's Grace</b> ว่ายน้ำเร็วขึ้นมาก</td></tr>
+<tr><td>Sea Legs</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Movement Speed +6%</td></tr>
+<tr><td>Strong Kick</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Movement Speed +6%</td></tr>
+<tr><td>Abyss Walker</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Knockback Resistance +10%</td></tr>
+<tr><td>Deep Diver</td><td class="c">3</td><td><span class="pill star">★ บัฟ+ถาวร</span></td><td>ขณะอยู่ใต้น้ำได้ <b>Conduit Power</b> + Armor +1 ถาวร</td></tr>
+<tr class="branch"><td colspan="4">กิ่ง 3 · สายต่อสู้</td></tr>
+<tr><td>Fishmonger</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>มรกต ×8</td></tr>
+<tr><td>Harpooner</td><td class="c">1</td><td><span class="pill stat">ถาวร</span></td><td>Attack Damage +0.5</td></tr>
+<tr><td>Tough Hide</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Armor +1</td></tr>
+<tr><td>Monster Hunter</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Attack Damage +0.5</td></tr>
+<tr><td>Swift Strike</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Attack Speed +5%</td></tr>
+<tr><td>Iron Will</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Knockback Resistance +0.1 (10%)</td></tr>
+<tr><td>Leviathan Bane</td><td class="c">3</td><td><span class="pill star">★ ถาวร</span></td><td>Attack Damage +1</td></tr>
+<tr class="branch"><td colspan="4">กิ่ง 4 · สายพ่อค้า</td></tr>
+<tr><td>Bait Pouch</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>Lucky Bait ×8 + Magnetic Bait ×4 (เหยื่อ Tide)</td></tr>
+<tr><td>Captain's Call</td><td class="c">1</td><td><span class="pill stat">ถาวร+ยูทิล</span></td><td>Luck +1 และ <b>ลด cooldown ปุ่ม [Call] เรียกพ่อค้าเทศกาลลงครึ่งหนึ่ง</b></td></tr>
+<tr><td>Boatwright</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Movement Speed +6%</td></tr>
+<tr><td>Trade Winds</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Movement Speed +6%</td></tr>
+<tr><td>Bait Whisperer</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Luck +1</td></tr>
+<tr><td>Deep Fighter</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Armor +1</td></tr>
+<tr><td>Merchant's Luck</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Luck +1</td></tr>
+<tr class="branch"><td colspan="4">👑 ยอด</td></tr>
+<tr><td>Legend of the Tides</td><td class="c">4</td><td><span class="pill star">👑</span></td><td>[ครั้งเดียว] Trident เอนแชนต์ <b>Loyalty III + Impaling V + Unbreaking III</b> + <b>2 หัวใจถาวร</b> + <b>Luck +2 ถาวร</b></td></tr>
+</table>
+<p class="small">รวม Luck สูงสุดของสายนี้ถ้าปลดครบ ≈ +10 · เหมาะกับคนเน้นตกปลาของหายากและเทศกาล</p>
+</div>
+
+<h3 class="hf">🌾 Farmer — ราก: Green Thumb <span class="pill stat">ถาวร</span> +1 หัวใจ</h3>
+<div class="card"><table>
+<tr><th>โหนด</th><th>แต้ม</th><th>ประเภท</th><th>ปลดแล้วได้อะไร</th></tr>
+<tr class="branch"><td colspan="4">กิ่ง 1 · สายเก็บเกี่ยว (ระบบกล่องของ)</td></tr>
+<tr><td>Bountiful Harvest</td><td class="c">1</td><td><span class="pill sys">ระบบ</span></td><td>ทุกๆ <b>150 Farmer XP</b> ที่เก็บได้ รับ <b>Harvest Crate</b> 1 กล่อง (ในกล่อง: ปุ๋ย 3 สี, Bone Meal, Rich Soil, Organic Compost, มรกต)</td></tr>
+<tr><td>Composter</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>Bone Meal ×32</td></tr>
+<tr><td>Seed Saver</td><td class="c">2</td><td><span class="pill sys">อัปเกรดกล่อง</span></td><td>Harvest Crate มีโอกาส (~30%) ได้ <b>เมล็ด/กล้าไม้หายาก</b> เพิ่ม</td></tr>
+<tr><td>Quartermaster</td><td class="c">2</td><td><span class="pill sys">อัปเกรดกล่อง</span></td><td>Harvest Crate มีโอกาส (15%) ได้ <b>Festival Token</b></td></tr>
+<tr><td>Tiller</td><td class="c">2</td><td><span class="pill buff">บัฟ</span></td><td>ขณะถือจอบในมือ ได้ <b>Haste</b> (ขุด/ไถเร็วขึ้น)</td></tr>
+<tr><td>Field Runner</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Movement Speed +6%</td></tr>
+<tr><td>Season's Blessing</td><td class="c">3</td><td><span class="pill star">★ อัปเกรด+ถาวร</span></td><td>Harvest Crate ถี่ขึ้นเป็น <b>ทุก 110 XP</b> (จาก 150) + 1 หัวใจ</td></tr>
+<tr class="branch"><td colspan="4">กิ่ง 2 · สายสัตว์</td></tr>
+<tr><td>Animal Feed</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>ข้าวสาลี ×64 (ไว้ผสมพันธุ์)</td></tr>
+<tr><td>Shepherd</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>เชือกจูง ×4</td></tr>
+<tr><td>Dairy &amp; Eggs</td><td class="c">2</td><td><span class="pill one">ครั้งเดียว</span></td><td>เนื้อวัวย่าง ×16</td></tr>
+<tr><td>Animal Whisperer</td><td class="c">2</td><td><span class="pill buff">บัฟ</span></td><td>ขณะอยู่ใกล้สัตว์ฟาร์ม (รัศมี 8 บล็อก) ได้ <b>Regeneration</b></td></tr>
+<tr><td>Stockman</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Armor +1</td></tr>
+<tr><td>Wrangler</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Movement Speed +6%</td></tr>
+<tr><td>Master Rancher</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Luck +1</td></tr>
+<tr class="branch"><td colspan="4">กิ่ง 3 · สายเครื่องมือ</td></tr>
+<tr><td>Baker</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>ขนมปัง ×32</td></tr>
+<tr><td>Well Stocked</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>Market + Feeding Trough + Chicken Nest อย่างละ 1 (ของ Farming for Blockheads)</td></tr>
+<tr><td>Master Tools</td><td class="c">2</td><td><span class="pill one">ครั้งเดียว</span></td><td>จอบเพชร เอนแชนต์ <b>Efficiency IV + Unbreaking III</b></td></tr>
+<tr><td>Early Riser</td><td class="c">2</td><td><span class="pill buff">บัฟ</span></td><td>หลังนอนตื่น ได้ <b>Haste นาน 5 นาที</b></td></tr>
+<tr><td>Weathered</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Armor +1</td></tr>
+<tr><td>Thick Skin</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Armor Toughness +1</td></tr>
+<tr><td>Pitchfork Arm</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Attack Damage +1</td></tr>
+<tr class="branch"><td colspan="4">กิ่ง 4 · สายตลาด</td></tr>
+<tr><td>Market Regular</td><td class="c">1</td><td><span class="pill sys">ระบบ</span></td><td>รับ <b>มรกต 6 ทุก 7 วันในเกม</b> อัตโนมัติ</td></tr>
+<tr><td>Market Day</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>มรกต ×12</td></tr>
+<tr><td>Caterer</td><td class="c">2</td><td><span class="pill one">ครั้งเดียว</span></td><td>เนื้อวัวย่าง ×16</td></tr>
+<tr><td>Orchardist</td><td class="c">2</td><td><span class="pill one">ครั้งเดียว</span></td><td>กล้าแอปเปิล ×2 + กล้าเชอร์รีดำ ×1 + กล้ามะพร้าว ×1</td></tr>
+<tr><td>Hardy</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Knockback Resistance +10%</td></tr>
+<tr><td>Second Wind</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Knockback Resistance +0.1 (10%)</td></tr>
+<tr><td>Provisioner</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Armor Toughness +1</td></tr>
+<tr class="branch"><td colspan="4">👑 ยอด</td></tr>
+<tr><td>Master Farmer</td><td class="c">4</td><td><span class="pill star">👑</span></td><td>[ครั้งเดียว] จอบทอง เอนแชนต์ <b>Efficiency IV + Unbreaking III + Mending</b> + 1 หัวใจ + Armor Toughness +2</td></tr>
+</table></div>
+
+<h3 class="hc">🍳 Chef — ราก: Apron <span class="pill stat">ถาวร</span> +1 หัวใจ</h3>
+<div class="card"><table>
+<tr><th>โหนด</th><th>แต้ม</th><th>ประเภท</th><th>ปลดแล้วได้อะไร</th></tr>
+<tr class="branch"><td colspan="4">กิ่ง 1 · สายบัฟอาหาร</td></tr>
+<tr><td>Chef's Kit</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>Cooking Pot + Skillet + Cutting Board (ชุดครัว Farmer's Delight)</td></tr>
+<tr><td>Pantry Stock</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>แครอททอง ×8</td></tr>
+<tr><td>Iron Stomach</td><td class="c">2</td><td><span class="pill buff">บัฟถาวร</span></td><td>ไม่ติด Food Poisoning / Nausea (เวียนหัว) อีกต่อไป</td></tr>
+<tr><td>Seasoned Cook</td><td class="c">2</td><td><span class="pill buff">อัปเกรด</span></td><td>บัฟจากอาหารทุกเมนู <b>อยู่นานขึ้น 50%</b></td></tr>
+<tr><td>Spice Master</td><td class="c">2</td><td><span class="pill buff">อัปเกรด</span></td><td>บัฟอาหาร <b>แรงขึ้น +1 เลเวล</b> (Luck, Strength, Speed, Haste)</td></tr>
+<tr><td>Food Critic</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Armor Toughness +1</td></tr>
+<tr><td>Head Chef</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>+1 หัวใจ</td></tr>
+<tr class="branch"><td colspan="4">กิ่ง 2 · สายอิ่มท้อง</td></tr>
+<tr><td>Caterer</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>สเต๊ก (เนื้อวัวย่าง) ×32</td></tr>
+<tr><td>Hearty Portions</td><td class="c">1</td><td><span class="pill buff">อัปเกรด</span></td><td>เมนู <b>Gourmet/Feast คืน Saturation</b> ด้วย (อิ่มทน)</td></tr>
+<tr><td>Connoisseur</td><td class="c">2</td><td><span class="pill buff">อัปเกรด</span></td><td>เมนู <b>ซีฟู้ด</b> ให้ <b>Dolphin's Grace</b> เพิ่ม</td></tr>
+<tr><td>Big Appetite</td><td class="c">2</td><td><span class="pill buff">บัฟ</span></td><td>กินอาหารใดก็ได้ ได้ <b>Absorption 60 วินาที</b></td></tr>
+<tr><td>Fine Palate</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Armor +1</td></tr>
+<tr><td>Well Fed</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Armor +1</td></tr>
+<tr><td>Master Taster</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>+1 หัวใจ</td></tr>
+<tr class="branch"><td colspan="4">กิ่ง 3 · สายอรรถประโยชน์</td></tr>
+<tr><td>Golden Touch</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>แอปเปิลทอง ×4</td></tr>
+<tr><td>Comfort Food</td><td class="c">1</td><td><span class="pill buff">บัฟ</span></td><td>กินอาหารใดก็ได้ ได้ <b>Regeneration 5 วินาที</b></td></tr>
+<tr><td>Kitchen Fire</td><td class="c">2</td><td><span class="pill buff">อัปเกรด</span></td><td>เมนู <b>Hearty</b> ให้ <b>Fire Resistance</b> เพิ่ม</td></tr>
+<tr><td>Ironbelly</td><td class="c">2</td><td><span class="pill buff">อัปเกรด</span></td><td>เมนู Hearty: <b>Resistance อยู่นานขึ้น 50% + Absorption</b></td></tr>
+<tr><td>Protein</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Attack Damage +0.5</td></tr>
+<tr><td>Warm Meal</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Armor Toughness +1</td></tr>
+<tr><td>Full Belly</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Knockback Resistance +0.1 (10%)</td></tr>
+<tr class="branch"><td colspan="4">กิ่ง 4 · สายสำรับ</td></tr>
+<tr><td>Provisioner</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>Roast Chicken + Honey Glazed Ham (เมนู Feast อย่างละ 1)</td></tr>
+<tr><td>Restaurateur</td><td class="c">1</td><td><span class="pill one">ครั้งเดียว</span></td><td>มรกต ×12</td></tr>
+<tr><td>Banquet Host</td><td class="c">2</td><td><span class="pill buff">บัฟกลุ่ม</span></td><td>บัฟจากเมนู <b>Feast แชร์ให้ผู้เล่นในรัศมี 16 บล็อก</b></td></tr>
+<tr><td>Master Caterer</td><td class="c">2</td><td><span class="pill buff">อัปเกรด</span></td><td>บัฟ <b>Feast อยู่นาน 2 เท่า</b></td></tr>
+<tr><td>Robust</td><td class="c">2</td><td><span class="pill stat">ถาวร</span></td><td>Movement Speed +6%</td></tr>
+<tr><td>Hot Line</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Armor +1</td></tr>
+<tr><td>Gourmand</td><td class="c">3</td><td><span class="pill stat">ถาวร</span></td><td>Luck +1</td></tr>
+<tr class="branch"><td colspan="4">👑 ยอด</td></tr>
+<tr><td>Master Chef</td><td class="c">4</td><td><span class="pill star">👑</span></td><td>[ครั้งเดียว] Enchanted Golden Apple ×2 + 1 หัวใจ + Armor Toughness +2</td></tr>
+</table></div>
+
+<h2>5. ระบบ Mastery (หลังปลดเต็มต้น)</h2>
+<div class="card">
+<ul>
+<li>ปลดสายใดครบ <b>100%</b> แล้ว ทุกเลเวลที่ได้เพิ่มจะกลายเป็น <b>Mastery Crate</b> 1 กล่อง</li>
+<li>มีปุ่ม <b>[Claim]</b> ขึ้นในแชต (เบื้องหลัง <code>/trigger fff_mastery</code>)</li>
+<li>ของในกล่องต่างกันตามสาย: Angler = เหยื่อพิเศษ/ผงหายาก · Farmer = ปุ๋ย/ดินดี · Chef = เมนูใหญ่ · ทุกกล่องมีโอกาส <b>15%</b> ได้ Festival Token</li>
+</ul>
+</div>
+
+<h2>6. เคล็ดลับ</h2>
+<div class="card">
+<ul>
+<li><b>ต้นเกมเน้นค้นพบของใหม่</b> — ตกปลา/ปลูก/ทำอาหารให้ครบหลายชนิด โบนัสครั้งแรกคือ EXP ก้อนใหญ่สุด</li>
+<li><b>ไล่เก็บโหนดต้นกิ่งก่อน</b> (1 แต้ม) เพราะเป็นของแจกที่ช่วยตั้งตัว</li>
+<li><b>Captain's Call</b> คุ้มถ้าชอบเทศกาล · <b>Season's Blessing / Quartermaster / Seed Saver</b> ทำให้กล่องฟาร์มคุ้มขึ้นมาก</li>
+<li>ค่าสถานะต่อโหนดตั้งใจให้ไม่เยอะ พลังจริงอยู่ที่ของแจก บัฟอาหาร และโหนดยอด</li>
+<li>คำสั่ง (OP): <code>/puffish_skills level get &lt;ชื่อ&gt; puffish_skills:fff_angler</code> · รีเซ็ตสาย: <code>/puffish_skills skills reset &lt;ชื่อ&gt; puffish_skills:fff_farmer</code></li>
+</ul>
+</div>
+
+<p class="small" style="margin-top:24px">ไฟล์อ้างอิง: <code>config/puffish_skills/categories/fff_{angler,farmer,chef}/</code> · เวอร์ชันแพ็ก 1.3.1</p>
+</div>
+</body>
+</html>

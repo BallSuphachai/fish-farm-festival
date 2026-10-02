@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ระบบอาหาร FFF</title>
+<style>
+  :root{--bg:#f6f1e7;--card:#fffdf8;--ink:#2a241c;--muted:#6d6456;--line:#e3d9c6;--chip:#efe7d6;--hi:#c0442f;--md:#b8860b;--lo:#2f8a5c;--code:#f0e8d6}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--chip:#2c261e;--hi:#ef6a5a;--md:#e0b64a;--lo:#6cc592;--code:#2c261e}}
+  :root[data-theme="dark"]{--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--chip:#2c261e;--hi:#ef6a5a;--md:#e0b64a;--lo:#6cc592;--code:#2c261e}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,"Sarabun","Noto Sans Thai",sans-serif;line-height:1.7}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 16px 80px}
+  h1{font-size:1.8rem;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 26px}
+  h2{font-size:1.2rem;margin:34px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+  .lead{border-left:4px solid var(--hi);padding:10px 14px;background:var(--card);border-radius:0 10px 10px 0;margin:0 0 20px}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--chip);font-size:.78rem;color:var(--muted)}
+  code{background:var(--code);padding:2px 7px;border-radius:6px;font-size:.9em;font-family:ui-monospace,Consolas,monospace}
+  .formula{display:block;background:var(--code);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:8px 0;font-family:ui-monospace,Consolas,monospace;font-size:.92rem;overflow-x:auto}
+  ul{margin:8px 0 8px 0;padding-left:22px} li{margin:5px 0}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;padding:1px 9px;border-radius:20px;color:#fff;margin-left:6px}
+  .t-main{background:var(--hi)} .t-info{background:var(--md)} .t-help{background:var(--lo)}
+  .small{font-size:.85rem;color:var(--muted)}
+  b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🍽️ ระบบอาหารของ Fish Farm Festival</h1>
+<p class="sub">สรุปวิธีทำงานของการกินอาหารทั้งหมดในแพ็ก · อ้างอิงจากไฟล์ตั้งค่าจริงบนเซิร์ฟเวอร์ 1.3.1</p>
+
+<p class="lead"><b>สรุปสั้น:</b> การที่หลอดอาหาร "เต็มยาก" ไม่ใช่บั๊ก แต่เป็นระบบของมอด <b>Spice of Fabric</b> ที่ตั้งใจให้ "กินอาหารชนิดเดิมซ้ำ = อิ่มน้อยลง" เพื่อผลักดันให้ทำและกินอาหารหลากหลาย วิธีแก้คือหมุนเวียนกินหลายเมนู</p>
+
+<h2>1. พื้นฐานหลอดอาหาร (Vanilla)</h2>
+<div class="card">
+<ul>
+<li>หลอดอาหารมี 20 หน่วย (ไก่ 10 อัน) และมีชั้น <b>Saturation</b> ซ่อนอยู่บนหลอด</li>
+<li>วิ่ง กระโดด สู้ ขุด จะกิน Saturation ก่อน พอ Saturation หมด หลอดอาหารที่เห็นถึงจะเริ่มลด</li>
+<li>ฟื้นเลือดเองได้เมื่อหลอดอาหาร <b>≥ 18</b> (ไก่ 9 อัน) ถ้ายังมี Saturation เหลือจะฟื้นเร็ว</li>
+<li>ต่ำกว่า 6 (ไก่ 3 อัน) วิ่งไม่ได้ · ถ้าเป็น 0 เริ่มเสียเลือด</li>
+</ul>
+</div>
+
+<h2>2. Spice of Fabric — ระบบ "กินซ้ำได้อิ่มน้อยลง" <span class="tag t-main">ตัวการหลัก</span></h2>
+<div class="card">
+<p>มอดนี้จำ <b>อาหาร 20 อย่างล่าสุด</b> ที่คุณกิน (<code>history-length: 20</code>) แล้วคิดค่าอิ่มตามสูตรจริงในไฟล์:</p>
+<span class="formula">อิ่มที่ได้ = ค่าอิ่มพื้นฐาน × 0.7 ^ (จำนวนครั้งที่อาหารชิ้นนี้อยู่ในประวัติ 20 อันล่าสุด)</span>
+<p>ยิ่งกินชนิดเดิมซ้ำ ค่าอิ่มยิ่งหด และยังใช้เวลากินนานขึ้นด้วย (<code>× 1.3 ^ ครั้ง</code>):</p>
+<table>
+<tr><th>กินชนิดเดิมครั้งที่</th><th>ได้อิ่ม (% ของปกติ)</th><th>เวลาที่ใช้กิน</th></tr>
+<tr><td>1 (ใหม่)</td><td>100%</td><td>ปกติ</td></tr>
+<tr><td>2</td><td>70%</td><td>ช้าลง 1.3 เท่า</td></tr>
+<tr><td>3</td><td>49%</td><td>1.7 เท่า</td></tr>
+<tr><td>4</td><td>34%</td><td>2.2 เท่า</td></tr>
+<tr><td>5</td><td>24%</td><td>2.9 เท่า</td></tr>
+<tr><td>6 ขึ้นไป</td><td>17% แล้วลดลงเรื่อยๆ</td><td>ช้าขึ้นเรื่อยๆ</td></tr>
+</table>
+<ul>
+<li>กินขนมปังหรือพืชชนิดเดียวรัวๆ ประวัติ 20 อันจะเต็มไปด้วยของชนิดนั้น ค่าอิ่มเหลือแทบเป็นศูนย์ หลอดเลยไม่ยอมเต็ม</li>
+<li><b>Saturation ยังได้เต็มปกติ</b> (สูตร saturation ไม่ถูกลด) เลือดยังฟื้นได้ถ้าหลอดสูงพอ แต่ตัวหลอดที่เห็นจะเติมยาก</li>
+<li>ประวัติยาว 20 ช่อง — ถ้าสลับกินของอื่นครบราว 20 อย่าง ของเดิมจะ "รีเซ็ต" กลับมาได้เต็มค่าอีกครั้ง</li>
+<li><b>ระบบนี้ไม่แตะหัวใจสูงสุด</b> — โหมด carrot ปิดอยู่ (<code>carrot.enable: false</code>) ลดแค่ค่าอิ่มต่อคำ ไม่ลดเลือดสูงสุด</li>
+</ul>
+</div>
+
+<h2>3. Diet — ระบบโภชนาการ <span class="tag t-info">คนละเรื่องกับหลอดอาหาร</span></h2>
+<div class="card">
+<ul>
+<li>อาหารแต่ละอย่างจัดอยู่ในกลุ่มโภชนาการ (ผัก ผลไม้ โปรตีน ธัญพืช น้ำตาล) ดูแถบได้ในช่องอินเวนทอรี</li>
+<li>ตาย 1 ครั้งเสียค่าโภชนาการ <b>40%</b> ของแต่ละกลุ่ม (<code>deathPenaltyLoss = 40</code>, แบบ PERCENT)</li>
+<li><b>ไม่ได้ทำให้หลอดอาหารลด</b> — เป็นตัวส่งเสริมการกินหลากหลาย และซ่อน tooltip กลุ่มอาหารจนกว่าจะเคยกิน</li>
+<li>เข้าทางเดียวกับ Spice of Fabric คือให้รางวัลกับการกินหลากหลาย</li>
+</ul>
+</div>
+
+<h2>4. AppleSkin — แค่หน้าจอ <span class="tag t-info">ไม่เปลี่ยนกลไก</span></h2>
+<div class="card">
+<p>แสดงตัวเลข Saturation และพรีวิวว่าอาหารที่ถืออยู่จะเติมหลอดเท่าไรตอนเล็ง ช่วยวางแผนได้ แต่ไม่มีผลต่อความยาก</p>
+</div>
+
+<h2>5. ตัวช่วยในแพ็กที่บรรเทาเรื่องนี้ได้ <span class="tag t-help">ทางออก</span></h2>
+<div class="card">
+<ul>
+<li><b>สาย Chef ในสกิล:</b> Hearty Portions (เมนู Gourmet/Feast คืน Saturation), Iron Stomach (ไม่โดนพิษอาหาร/เวียนหัว), Big Appetite (Absorption), Comfort Food (Regen), Head Chef / Master Taster (+1 หัวใจ)</li>
+<li><b>บัฟอาหาร FFF:</b> ทุกเมนูจากมอดให้บัฟ เมนูยากอยู่ได้นานกว่า</li>
+<li>สาย Chef คือคำตอบระยะยาวของเรื่องอาหาร</li>
+</ul>
+</div>
+
+<h2>วิธีเล่นให้หลอดเต็มง่าย</h2>
+<div class="card">
+<ul>
+<li>หมุนเวียนพก <b>อาหาร 6–10 ชนิด</b> ไม่กินซ้ำติดกัน</li>
+<li>เน้นเมนูใหญ่อย่าง <b>Feast / Gourmet</b> ที่ค่าอิ่มพื้นฐานสูง ถึงโดนหัก 0.7 ก็ยังเติมได้เยอะ</li>
+<li>ใช้อาหารหลากหลายจาก Farmer's Delight, Farm &amp; Charm, Vinery, Expanded Delight ฯลฯ ที่แพ็กมีให้เยอะอยู่แล้ว</li>
+<li>ลงทุนสาย Chef เพื่อคืน Saturation และกันพิษอาหาร</li>
+</ul>
+</div>
+
+<h2>ถ้าจะปรับให้ง่ายลงในอนาคต</h2>
+<div class="card">
+<p class="small">ยังไม่ได้ปรับ — บันทึกไว้เป็นตัวเลือก แก้ที่ <code>config/spiceoffabric.hjson</code> ทั้งฝั่ง client และ server ให้ตรงกัน:</p>
+<ul>
+<li><b>ผ่อนการหักลง:</b> เปลี่ยน <code>0.7</code> ในสูตร hunger เป็น <code>0.85</code> (กินซ้ำหักน้อยลง)</li>
+<li><b>ลดความยาวประวัติ:</b> <code>history-length: 20</code> → <code>10</code> (ของเดิมรีเซ็ตเร็วขึ้น)</li>
+<li><b>ปิดระบบทั้งหมด:</b> ตั้งสูตร hunger เป็น <code>hungerValue</code> เฉยๆ (กลับเป็นเหมือน vanilla)</li>
+</ul>
+</div>
+
+<p class="small" style="margin-top:24px">ไฟล์อ้างอิง: <code>config/spiceoffabric.hjson</code>, <code>config/diet-server.toml</code>, <code>config/appleskin.json5</code> · เวอร์ชันแพ็ก 1.3.1</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FFF Festival Design</title>
+<style>
+  :root{--bg:#f6f1e7;--card:#fffdf8;--ink:#2a241c;--muted:#6d6456;--line:#e3d9c6;--accent:#b5541f;--chip:#efe7d6;
+        --spring:#c2447a;--summer:#1f7fb8;--autumn:#b8621a;--xmas:#c0282d;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--accent:#e2854a;--chip:#2c261e;
+        --spring:#e77aa6;--summer:#5bb0e3;--autumn:#e2955a;--xmas:#ef6a6e;}}
+  :root[data-theme="dark"]{--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--accent:#e2854a;--chip:#2c261e;
+        --spring:#e77aa6;--summer:#5bb0e3;--autumn:#e2955a;--xmas:#ef6a6e;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,"Sarabun","Noto Sans Thai",sans-serif;line-height:1.65}
+  .wrap{max-width:1000px;margin:0 auto;padding:32px 16px 80px}
+  h1{font-size:1.85rem;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 24px}
+  h2{font-size:1.25rem;margin:36px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+  h3{font-size:1.05rem;margin:0 0 6px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin:14px 0}
+  .fest{border-left:5px solid var(--c)} .fest h3{color:var(--c)}
+  .xmas{border:2px solid var(--xmas);border-left-width:8px}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.88rem}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--chip);font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+  code{background:var(--chip);padding:1px 6px;border-radius:5px;font-size:.85em;font-family:ui-monospace,Consolas,monospace;word-break:break-all}
+  .callout{border-left:4px solid var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent);border-radius:0 10px 10px 0;padding:12px 16px;margin:14px 0}
+  .warn{--accent:#c0442f} .ok{--accent:#2f8a5c}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  .tbl{overflow-x:auto}
+  ul{padding-left:22px;margin:6px 0} li{margin:3px 0}
+  .small{font-size:.85rem;color:var(--muted)}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;padding:1px 8px;border-radius:20px;background:var(--chip);color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>🎄 Fish Farm Festival — ระบบเทศกาล v2.3.1</h1>
+<p class="sub">สร้างแล้วเป็น <code>fff-festival-1.0.0.jar</code> (data-mod ไม่ต้องลงมอดเพิ่ม) · ข้อความในเกมเป็นภาษาอังกฤษ · ทดสอบกลไกหลักบนเซิร์ฟเวอร์จำลองแล้ว</p>
+
+<div class="callout ok"><strong>สิ่งที่เปลี่ยนจาก v1:</strong> เปลี่ยนเทศกาลหน้าหนาวเป็น <b>Christmas</b> ให้เป็นเทศกาลหลักของแพ็ก · พ่อค้า<b>มาเกิดข้างผู้เล่น</b> · เทศกาลยาวขึ้นเป็น <b>16 วัน เริ่มตั้งแต่ต้นฤดู</b> · <b>ไม่มีการแข่งขันและไม่ประกาศผู้ชนะ</b> มีแค่รางวัลตามปกติ</div>
+
+<h2>1 · ปฏิทิน</h2>
+<p>เทศกาลจัดช่วง <b>ต้นฤดูและกลางฤดู (16 วันในเกม ≈ 5 ชม. 20 นาทีเวลาจริง)</b> และพักช่วงปลายฤดู 8 วัน ก่อนเข้าเทศกาลถัดไป</p>
+<div class="tbl"><table>
+<tr><th>เทศกาล</th><th>ฤดู</th><th>วันที่ของปี (1 ปี = 96 วัน)</th><th>พ่อค้า</th></tr>
+<tr><td>✿ <b>Blossom Fair</b></td><td>ใบไม้ผลิ</td><td>1–16 <span class="small">(ปีแรกเริ่มวันที่ 3 ให้ตั้งตัวก่อน)</span></td><td>Blossom Fair Host</td></tr>
+<tr><td>☀ <b>Grand Fishing Derby</b></td><td>ร้อน</td><td>25–40</td><td>Derby Master</td></tr>
+<tr><td>❦ <b>Harvest Feast</b></td><td>ใบไม้ร่วง</td><td>49–64</td><td>Harvest Host</td></tr>
+<tr><td>❄ <b>Christmas</b></td><td>หนาว</td><td>73–88 · <b>Christmas Eve = วันที่ 12, Christmas Day = วันที่ 13 ของเทศกาล</b></td><td>Santa Claus + Jingle the Elf</td></tr>
+</table></div>
+<p class="small">การนอนข้ามคืนนับเป็นวันใหม่เหมือนปกติ ฤดูของ Serene Seasons ก็เดินตามแบบเดียวกัน ปฏิทินจึงตรงกัน</p>
+
+<h2>2 · พ่อค้าเทศกาล</h2>
+<div class="card">
+<ul>
+<li><b>มาหาผู้เล่นทันทีเมื่อเทศกาลเริ่ม</b> เกิดห่างไป 2 บล็อกตรงหน้า หันมาหาผู้เล่น ถ้าผู้เล่นอยู่บนเรือ ในน้ำ หรือในที่แคบ จะรอจนผู้เล่นยืนบนพื้นโล่ง</li>
+<li>ผู้เล่นที่เข้าเกมกลางเทศกาลจะได้พ่อค้าของตัวเองด้วย ถ้ามีพ่อค้าอยู่ในรัศมี 32 บล็อกอยู่แล้ว จะใช้ตัวนั้นร่วมกัน (เล่นหลายคนในเมืองเดียวกันจะไม่ได้พ่อค้าซ้อนกัน)</li>
+<li><b>จุดสังเกต:</b> ตัวเรืองแสงเป็นเส้นขอบสีประจำเทศกาล มองทะลุกำแพงได้ · ลำแสงพุ่งขึ้นฟ้า มองเห็นได้ไกล 160 บล็อก · อนุภาคประจำฤดู (กลีบซากุระ / ละอองน้ำ / ใบไม้ส้ม / เกล็ดหิมะ) · มีชื่อลอยบนหัว · มี bossbar นับวันที่เหลือเมื่อเดินเข้าใกล้</li>
+<li><b>เรียกพ่อค้ามาหา:</b> ลิงก์ <code>[Call the merchant]</code> ในแชต หรือพิมพ์ <code>/trigger fff_call</code> ไม่ต้องเป็นแอดมิน · รอ 2 นาทีระหว่างการเรียกแต่ละครั้ง · ตัวเก่าจะหายไปเอง</li>
+<li>อมตะ ไม่เดิน ไม่หนี ราคาไม่ขึ้นตามความต้องการ เทรดได้ไม่จำกัดครั้ง · หายไปพร้อมเอฟเฟกต์เมื่อเทศกาลจบ</li>
+<li>กลางคืนจะมี<b>พลุ</b>ขึ้นรอบพ่อค้าทุก 15 วินาที เฉพาะตอนพ่อค้าอยู่กลางแจ้งและมีผู้เล่นอยู่ใกล้</li>
+</ul>
+</div>
+
+<h2>3 · Festival Token</h2>
+<div class="card">
+<p>ใช้ Gold Nugget สีทองมีประกาย ชื่อ "Festival Token" และติดแท็กพิเศษไว้ใน NBT ผู้เล่นทำขึ้นเองไม่ได้ ถ้าเอา Gold Nugget ธรรมดาไปเปลี่ยนชื่อที่ทั่งตีเหล็ก ก็ใช้แลกไม่ได้ · เก็บข้ามเทศกาลได้</p>
+<p><b>มูลค่า:</b> 1 token ≈ 150 ในสเกลเศรษฐกิจ (1 มรกต = 100) · ได้จาก ① ส่งของตามธีมให้พ่อค้า ② ของขวัญ Christmas ③ Hall of Fame</p>
+<p><b>การใช้:</b> token ใช้ซื้อของพิเศษ ส่วนมรกตใช้ซื้อของตกแต่งทั่วไป ซึ่งเป็นช่องทางใช้มรกตอีกทางหนึ่ง</p>
+</div>
+
+<h2>4 · สี่เทศกาล</h2>
+
+<div class="card fest xmas" style="--c:var(--xmas)">
+<h3>❄ Christmas — เทศกาลหลักของแพ็ก</h3>
+<ul>
+<li><b>เปิดงาน:</b> ข้อความเต็มจอ + เพลง <i>Jingle Bells</i> เล่นด้วยเสียงกระดิ่ง note block · Santa Claus (ชาวบ้านหิมะ) กับ Jingle the Elf มาหาผู้เล่นพร้อมกัน</li>
+<li><b>Christmas Eve (วันที่ 12):</b> ประกาศ "Sleep tonight — Santa visits while you dream…" และทำให้หิมะตก (หน้าหนาวของ Serene Seasons ทำให้ฝนกลายเป็นหิมะ)</li>
+<li><b>Christmas Morning (วันที่ 13):</b> ตื่นมาพบ Jingle Bells อีกรอบ มีหิมะ และ <b>ของขวัญจาก Santa</b> ในกระเป๋าของผู้เล่นทุกคน ใครเข้าเกมทีหลังก็ได้ ได้คนละ 1 ครั้งต่อปี
+  <br><span class="small">ของขวัญ = กล่องของขวัญ (Macaw's) + Gingerbread Cookie ×6 + Eggnog + 3 token + ของสุ่มอีก 1 ชิ้น (เพชร 1 เม็ด / แผ่นเพลง Winter / Snow Globe / Golden Apple / Name Tag / Lucky Bait ×8 / ขวด XP ×8 / หนังสือเวทสุ่ม)</span></li>
+</ul>
+<div class="grid">
+<div><b>Santa รับซื้อ 26 รายการ</b><br><span class="small">Gingerbread, Gingerbread Cookie, Eggnog, Candy Cane, Gumdrop, คุกกี้ 5 แบบ, เค้ก, พาย, Cheesecake, Roasted Chicken, Cabbage, Ginger, Sweet Berries, Snowball, Packed Ice, กล้าสน · <b>Feast ทั้งถาด → 2–3</b> · Frostbite Flounder → 2</span></div>
+<div><b>Santa ขาย 24 รายการ (token)</b><br><span class="small">กล่องของขวัญใหญ่ 3 สี, Snowman 6 แบบ, ลูกโป่ง Santa/ต้นไม้/Candy Cane, Prismatic Glow Lights, เลื่อน 3 แบบ, Snow Globe, <b>แผ่นเพลง Winter</b>, <b>Gingerbread Golem</b> และ <b>Penguin</b> spawn egg, Frost Walker II, <b>Santa Hat</b>, <b>Christmas Sweater</b> เขียวและแดง</span></div>
+<div><b>Jingle the Elf ขาย 105 รายการ</b><br><span class="small">ต้นคริสต์มาสประดับ 6 สี ครบทุกชิ้น (token) · ใช้มรกตแลก: ต้นสนเปล่าและต้นสนหิมะ, garland และไฟประดับ 14 แบบ, ลูกบอลประดับ 6 สี, ถุงเท้า, กระดิ่ง, กล่องของขวัญ, ของแต่งผนัง 18 แบบ, พรมเช็ดเท้า, icicle, candy cane, Snowy Spirit Glow Lights, อิฐหิมะ/น้ำแข็ง, <b>Unmeltable Snow</b></span></div>
+</div>
+</div>
+
+<div class="grid">
+<div class="card fest" style="--c:var(--spring)">
+<h3>✿ Blossom Fair — 68 รายการ</h3>
+<p class="small"><b>รับซื้อ 21:</b> พืชฤดูใบไม้ผลิ, ไข่, น้ำผึ้ง, รวงผึ้ง, ขนแกะ, ดอกไม้, Strawberry Tea, Oatmeal, Asparagus Soup, สลัด, แซนด์วิช, Fruit Salad<br>
+<b>token 25:</b> Pink Petals, Moss, Azalea, Cherry Sapling, ปุ๋ย 3 แบบ, Chicken Nest, Feeding Trough, <b>Market</b>, เมล็ด Asparagus, เมล็ด Asparagus และเมล็ดองุ่นประจำ biome 6 แบบ (ราคา ×2), กล้าต้นแอปเปิล, Straw Hat, Sniffer Egg, Bee Nest, Efficiency III, Fortune II, <b>Blossom Hoe</b><br>
+<b>มรกต 22:</b> โคมกระดาษ 6 สี, paper lamp 4 สี, กันสาดแบบแผงตลาด 4 สี, ดอกไม้สูง, Spore Blossom, กระถางใหญ่, ลูกโป่ง</p>
+</div>
+<div class="card fest" style="--c:var(--summer)">
+<h3>☀ Grand Fishing Derby — 141 รายการ</h3>
+<p class="small"><b>รับซื้อ 52:</b> ปลาธรรมดา 14 ชนิด, ปลาไม่ธรรมดา 4, ปลาหายาก 10, ปลาหายากมาก 6 (→2), ปลาตำนาน 6 (→5), เปลือกหอย, มะพร้าว, ไข่มุก, Sea Pickle, อาหารทะเล 8 เมนู<br>
+<b>token 61:</b> เหยื่อ, ทุ่น 9 แบบ, สายเบ็ด, ตะขอ, คันเบ็ด 4 แบบ, อุปกรณ์ Tide (Pocket Watch, Depth Meter, Weather Radio ฯลฯ), ตู้ปลาและไข่ปลา 6 ระดับ, ชุดดำน้ำ, Message in a Bottle, แพ, ทุ่นลอยน้ำ, หมวกแมงกะพรุน, แผ่นเพลง Coconut, Heart of the Sea, Luck of the Sea III, Lure III, <b>Derby Champion Rod</b><br>
+<b>มรกต 28:</b> ทรายขาว, Sea Lantern, ห่วงชูชีพ, สมอ, ทุ่นแก้ว, ปลาแขวน, เปล/ถุงนอน, กันสาดชายหาด</p>
+</div>
+<div class="card fest" style="--c:var(--autumn)">
+<h3>❦ Harvest Feast — 113 รายการ</h3>
+<p class="small"><b>รับซื้อ 39:</b> พืชฤดูใบไม้ร่วง, แอปเปิล, องุ่น, เชอร์รี, เห็ด, ซุปและสตูว์ 9 เมนู, Pretzel, Pork Knuckle, Sausage, น้ำผลไม้, พาย · <b>Feast ทั้งถาด → 2</b><br>
+<b>token 26:</b> ชุด <b>Brewfest</b> 8 ชิ้น, ชุด Winemaker, หมวกฟาง, Witch Hat/Cauldron, ผี, โครงกระดูก, Jack o'Lantern, Market, Looting II, Unbreaking II, <b>Master Chef Knife</b><br>
+<b>มรกต 48:</b> ฟักทอง 10 แบบ, พรมใบไม้ 5 สี, หุ่นไล่กา, รถเข็นฟาง, ของแต่ง Halloween, ถังผลไม้ 6 แบบ, กันสาด, โคม Tavern</p>
+</div>
+</div>
+
+<h2>4.5 · ✦ Festival Treasure — สุดยอดไอเท็มที่มีขายแค่ที่พ่อค้าเทศกาล</h2>
+<div class="card">
+<p>ทุกครั้งที่พ่อค้าเทศกาลมาหาผู้เล่น จะสุ่มของล้ำค่า <b>1 อย่าง (มีโอกาส 50% ที่จะได้ 2 อย่าง)</b> วางไว้บนสุดของรายการ <b>ซื้อได้อย่างละ 1 ครั้ง</b> และมีข้อความในแชตบอกว่ารอบนี้มีอะไร · ของยิ่งมีค่ายิ่งสุ่มออกยาก · ตอนซื้อจะประกาศให้ทั้งเซิร์ฟเวอร์รู้</p>
+<p class="small"><b>กันการสุ่มใหม่:</b> ของที่สุ่มได้จะผูกกับผู้เล่นตลอดเทศกาลนั้น กด Call กี่ครั้งก็ได้ของเดิม และถ้าซื้อไปแล้ว ของชิ้นนั้นจะไม่กลับมาอีก</p>
+<div class="tbl"><table>
+<tr><th>ไอเท็ม</th><th>ราคา (token)</th><th>โอกาสสุ่มได้</th></tr>
+<tr><td>Nether Star</td><td>80</td><td>1/33</td></tr>
+<tr><td>Netherite Upgrade Smithing Template</td><td>64</td><td>1/33</td></tr>
+<tr><td>Totem of Undying</td><td>50</td><td>2/33</td></tr>
+<tr><td>หนังสือ: Mending 44 · Fortune III 40 · Sharpness V / Efficiency V / Looting III 38 · Protection IV / Silk Touch 36 · Unbreaking III / Feather Falling IV 34</td><td>34–44</td><td>อย่างละ 1/33</td></tr>
+<tr><td>Netherite Ingot</td><td>30</td><td>3/33</td></tr>
+<tr><td>Shulker Shell ×2</td><td>26</td><td>3/33</td></tr>
+<tr><td>Trident</td><td>22</td><td>4/33</td></tr>
+<tr><td>Diamond ×2</td><td>14</td><td>5/33</td></tr>
+<tr><td>Enchanted Golden Apple</td><td>12</td><td>5/33</td></tr>
+</table></div>
+<p class="small">v2.3: ราคาปรับลงจากรอบก่อนราว 1/3 (ยังแพงกว่ารอบแรก 2 เท่า) และเรียงลำดับความมีค่าตามที่กำหนด · Mending ย้ายจากร้านปกติของ Harvest Feast มาอยู่ในกลุ่มนี้ เพื่อให้เป็นของหายากจริง</p>
+</div>
+
+<h2>5 · Hall of Fame (แท็บ advancement ใหม่)</h2>
+<div class="tbl"><table>
+<tr><th>Advancement</th><th>เงื่อนไข</th><th>รางวัล</th></tr>
+<tr><td>Blossom Fair Guest / Derby Angler / Harvest Feaster / Merry Christmas!</td><td>เทรดกับพ่อค้าของเทศกาลนั้นครั้งแรก</td><td>2 token</td></tr>
+<tr><td>Santa Came!</td><td>ได้รับของขวัญเช้าวันคริสต์มาส</td><td>—</td></tr>
+<tr><td>A Year of Festivals <span class="tag">challenge</span></td><td>ร่วมครบทั้ง 4 เทศกาล</td><td>5 token + เค้ก</td></tr>
+<tr><td>Festival Collector <span class="tag">challenge</span></td><td>มีของรางวัลใหญ่ครบ 4 ชิ้น: Champion Rod, Blossom Hoe, Chef Knife, Santa Hat</td><td>5 token + เพชร 1</td></tr>
+</table></div>
+
+<h2>6 · คำสั่งแอดมิน (สำหรับทดสอบ)</h2>
+<div class="tbl"><table>
+<tr><th>คำสั่ง</th><th>ผล</th></tr>
+<tr><td><code>/function fff_festival:admin/start_christmas</code></td><td>บังคับเริ่ม Christmas (มี start_spring / start_summer / start_autumn ด้วย)</td></tr>
+<tr><td><code>/function fff_festival:admin/christmas_morning</code></td><td>จำลองเช้าวันคริสต์มาส: เพลง + หิมะ + ของขวัญ</td></tr>
+<tr><td><code>/function fff_festival:admin/auto</code></td><td>กลับไปใช้ปฏิทินฤดูตามปกติ <b>(ทดสอบเสร็จแล้วต้องรันคำสั่งนี้ทุกครั้ง)</b></td></tr>
+<tr><td><code>/function fff_festival:admin/stop</code></td><td>ปิดเทศกาลทั้งหมด</td></tr>
+<tr><td><code>/function fff_festival:admin/status</code></td><td>ดูวัน ฤดู และเทศกาลปัจจุบัน</td></tr>
+<tr><td><code>/function fff_festival:admin/give_tokens</code></td><td>รับ token 64 เหรียญไว้ทดสอบร้าน</td></tr>
+</table></div>
+
+<h2>7 · ผลทดสอบและข้อจำกัด</h2>
+<div class="callout ok"><b>ทดสอบบนเซิร์ฟเวอร์ vanilla 1.20.1 ด้วยบอทแล้ว ผ่านทุกข้อ:</b> (รอบ 2: สุ่ม Treasure ได้ทั้ง 4 เทศกาล · ซื้อ Nether Star ได้ ซื้อซ้ำไม่ได้ · กด Call แล้วไม่สุ่มใหม่) ไม่มี error ในไฟล์ function ทั้ง 62 ไฟล์ · Santa กับ Elf เกิดห่างผู้เล่น 2 บล็อก · ส่ง Cookie ×64 ได้ 4 token · ใช้ 4 token แลก Santa Hat ได้ (ยืนยันว่าการเช็กแท็กของ token ทำงาน) · ของขวัญ Christmas · ปุ่มเรียกพ่อค้าและคูลดาวน์ · ตัวเก่าหายเมื่อเรียกตัวใหม่ · ปิดเทศกาลแล้วพ่อค้าหายหมด</div>
+<div class="callout warn">
+<ul>
+<li><b>ยังไม่ได้ทดสอบในแพ็กจริง:</b> ไอเท็มของมอด ตาราง loot ของขวัญ และหน้าตาของ Hall of Fame (เซิร์ฟเวอร์ vanilla ไม่มีไอเท็มของมอด) รวมถึงผลกระทบจาก villagersplus กับชาวบ้านแบบ NoAI</li>
+<li>ถ้ามีคนใช้ <code>/season set</code> ปฏิทินเทศกาลจะไม่ตรงกับฤดู</li>
+<li>ถ้าผู้เล่นเดินทางไกลออกไปแล้วกลับบ้าน พ่อค้าจะค้างอยู่ที่เดิม ต้องกด Call เพื่อเรียกมาใหม่ (ข้อความแจ้งเตือนรายวันมีปุ่มให้กด)</li>
+<li>ร้านมีตั้งแต่ 50 ถึง 141 รายการ ต้องเลื่อนดูเยอะ (ตั้งใจให้เป็นแบบนี้) · Festival Treasure อยู่บนสุดเสมอ</li>
+</ul>
+</div>
+
+</div>
+</body>
+</html>
