@@ -12,7 +12,8 @@ FFF-Wiki/
 │
 ├── guides/                 หน้าคู่มือเชิงลึก (สำหรับผู้เล่น)
 │   ├── skill-tree.html         คู่มือ Skill Tree ทุกโหนด 3 สาย
-│   └── food-system.html        ระบบอาหาร (Spice of Fabric/Diet)
+│   ├── food-system.html        ระบบอาหาร (Spice of Fabric/Diet)
+│   └── fish.html               สารานุกรมปลา 158 ชนิด (ที่ไหน เวลาไหน อุปกรณ์)
 │
 ├── design/                 เอกสารออกแบบ/ภายใน (ไม่ใช่หน้าเผยแพร่หลัก)
 │   ├── festival.html           ดีไซน์ระบบเทศกาล
