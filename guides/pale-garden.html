@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pale Garden และ Creaking</title>
+<style>
+  :root{--bg:#f6f1e7;--card:#fffdf8;--ink:#2a241c;--muted:#6d6456;--line:#e3d9c6;--chip:#efe7d6;--hi:#c0442f;--md:#b8860b;--lo:#2f8a5c;--code:#f0e8d6}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--chip:#2c261e;--hi:#ef6a5a;--md:#e0b64a;--lo:#6cc592;--code:#2c261e}}
+  :root[data-theme="dark"]{--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--chip:#2c261e;--hi:#ef6a5a;--md:#e0b64a;--lo:#6cc592;--code:#2c261e}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,"Sarabun","Noto Sans Thai",sans-serif;line-height:1.7}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 16px 80px}
+  .back{display:inline-block;margin-bottom:14px;color:var(--muted);font-size:.9rem;text-decoration:none}
+  .back:hover{color:var(--hi)}
+  h1{font-size:1.8rem;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 26px}
+  h2{font-size:1.2rem;margin:34px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+  .lead{border-left:4px solid var(--hi);padding:10px 14px;background:var(--card);border-radius:0 10px 10px 0;margin:0 0 20px}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--chip);font-size:.78rem;color:var(--muted)}
+  code{background:var(--code);padding:2px 7px;border-radius:6px;font-size:.9em;font-family:ui-monospace,Consolas,monospace}
+  .formula{display:block;background:var(--code);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:8px 0;font-family:ui-monospace,Consolas,monospace;font-size:.92rem;overflow-x:auto}
+  ul{margin:8px 0 8px 0;padding-left:22px} li{margin:5px 0}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;padding:1px 9px;border-radius:20px;color:#fff;margin-left:6px}
+  .t-main{background:var(--hi)} .t-info{background:var(--md)} .t-help{background:var(--lo)}
+  .small{font-size:.85rem;color:var(--muted)}
+  b{color:var(--ink)}
+  a{color:var(--hi)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="../index.html">← กลับหน้าแรก</a>
+<h1>🌫️ Pale Garden และ Creaking</h1>
+<p class="sub">ป่าสีเทาจากมอด Pale Garden Backport (2.0.3) · เพิ่มในแพ็ก 1.4.2</p>
+
+<p class="lead"><b>สรุปสั้น:</b> Pale Garden คือป่า Pale Oak สีเทาที่พบได้ยาก เกิดแทนที่ Dark Forest บางส่วนในดินแดนที่ยัง <b>ไม่มีใครเคยไป</b> ตอนกลางคืนมี <b>Creaking</b> ที่ขยับเฉพาะตอนไม่มีใครมอง อันตรายมาก อย่ายืนนิ่งหรือ AFK ในป่านี้หลังมืด</p>
+
+<h2>1. หาได้ที่ไหน</h2>
+<div class="card">
+<ul>
+<li>Pale Garden เกิดแทน <b>Dark Forest</b> ประมาณ 6 ใน 10 ส่วน (1,113 จาก 1,928 ช่อง Dark Forest ในพื้นที่ทดสอบ) ไบโอมอื่นไม่เปลี่ยน</li>
+<li>เป็นไบโอมหายาก ระยะจากจุดสุ่มที่วัดได้ไปหาสวนที่ใกล้สุดอยู่ระหว่าง 320 ถึง 5,770 บล็อก ค่ากลางราว 2,400 บล็อก เตรียมเดินทางเป็นกิโลเมตร</li>
+<li><b>ที่ที่เคยไปแล้วไม่เปลี่ยนเลย</b> Pale Garden จะเจอเฉพาะดินแดนที่ยังไม่ถูกสร้างขึ้นมา ฐานและพื้นที่ที่สำรวจแล้วยังเหมือนเดิมทุกบล็อก</li>
+<li>ถ้าเปิดโหมดโกงได้ ใช้ <code>/locate biome palegardenbackport:pale_garden</code> เพื่อหาสวนที่ใกล้ที่สุด</li>
+<li>เป็นป่าที่นับเหมือนป่าทั่วไป ดังนั้น Mineshaft, Woodland Mansion และ Ruined Portal เริ่มในสวนนี้ได้เหมือน Dark Forest</li>
+</ul>
+</div>
+
+<h2>2. Creaking <span class="tag t-main">อันตราย</span></h2>
+<div class="card">
+<ul>
+<li><b>เกิดจาก Creaking Heart</b> ที่ซ่อนอยู่ในต้น Pale Oak บางต้น และเกิด <b>ตอนกลางคืนเมื่อมีผู้เล่นอยู่ใกล้</b></li>
+<li><b>ขยับเฉพาะตอนที่ไม่มีใครมอง</b> เมื่อคุณเห็นมันตรงๆ มันจะหยุดนิ่ง พอหันหนีมันจะเข้าหา</li>
+<li>ตีคุณครั้งละประมาณ <b>3 HP</b> และผลักถอยหลัง</li>
+<li><b>ฆ่าไม่ตายตราบใดที่ Heart ยังอยู่</b> (ทดสอบแล้ว: โดนดาเมจ 12 ทั้งที่เหลือ 1 HP ก็ยังไม่ตาย) ต้อง <b>ทุบ Creaking Heart</b> มันจึงตาย</li>
+<li>ตี Creaking จะมี <b>Resin Clump</b> งอกบนท่อน Pale Oak ใกล้ๆ</li>
+<li>Heart ที่ขุดด้วยขวานธรรมดาไม่ดรอปอะไร</li>
+<li><b>อย่าหยุดนิ่งหรือ AFK ในสวนตอนกลางคืน</b> ผู้เล่นที่ยืนเฉยๆ ถูก Creaking ฆ่าภายในราว 1 นาทีในการทดสอบ</li>
+</ul>
+<p class="small">เคล็ดลับ: เดินผ่านสวนตอนกลางวัน และอย่าอยู่ในสวนหลังมืด</p>
+</div>
+
+<h2>3. ของใหม่ที่ได้</h2>
+<div class="card">
+<ul>
+<li><b>ชุดไม้ Pale Oak ครบ:</b> ท่อนไม้ ใบ แผ่นไม้ ป้าย ป้ายแขวน ประตู รั้ว ฯลฯ และเรือ Pale Oak (มีเรือแบบมีหีบด้วย)</li>
+<li><b>Pale Moss</b> พรม และ Pale Hanging Moss</li>
+<li><b>Eyeblossom</b> ดอกไม้ที่ <b>บานตอนกลางคืน หุบตอนกลางวัน</b> ปลูกในกระถางได้</li>
+<li><b>Resin:</b> Resin Clump, Block of Resin, Resin Brick และชุด Resin Bricks (slab, stairs, wall, chiseled) ใช้ Resin เป็นวัสดุ <b>armor trim</b> ได้ด้วย</li>
+<li><b>Creaking Heart</b> และไข่ Creaking</li>
+<li>ต้นกล้า Pale Oak ได้จากใบไม้ของต้น พ่อค้าเร่ร่อนไม่ได้ขายต้นกล้านี้</li>
+</ul>
+</div>
+
+<h2>4. พ่อค้าเทศกาลในสวน</h2>
+<div class="card">
+<p>ถ้าคุณเรียกพ่อค้าเทศกาลมาในสวน มันเกิดบน Eyeblossom และ Pale Moss ได้ ไม่มีปัญหาเรื่องหาที่ยืน</p>
+</div>
+
+<h2>5. ควรรู้ก่อนเดินทาง</h2>
+<div class="card">
+<ul>
+<li>บล็อกของมอดนี้ถ้าถอดมอดภายหลังจะ <b>หายไปจากเวิลด์</b></li>
+<li>ไอเทมใช้ไอดีของมอด (<code>palegardenbackport:*</code>) ไม่ใช่ของ vanilla</li>
+<li>มอดที่เพิ่มเข้ามาคือ Pale Garden Backport: The Garden Awakens 2.0.3, Deltabox Lib 2.2.0 และ TerraBlender (Fabric) 3.0.1.10</li>
+<li>แพ็ก 1.4.2 ใช้งานได้แม้ไม่มีมอด Pale Garden</li>
+</ul>
+</div>
+
+<p class="small" style="margin-top:24px">อ้างอิง: บันทึกการทดสอบ Pale Garden บนแพ็ก 1.4.1/1.4.2 (บอทบนเซิร์ฟทดสอบ) และ changelog 1.4.2</p>
+</div>
+</body>
+</html>

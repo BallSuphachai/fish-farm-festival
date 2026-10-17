@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>เรือรบอิลลาเจอร์และ Invoker</title>
+<style>
+  :root{--bg:#f6f1e7;--card:#fffdf8;--ink:#2a241c;--muted:#6d6456;--line:#e3d9c6;--chip:#efe7d6;--hi:#c0442f;--md:#b8860b;--lo:#2f8a5c;--code:#f0e8d6}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--chip:#2c261e;--hi:#ef6a5a;--md:#e0b64a;--lo:#6cc592;--code:#2c261e}}
+  :root[data-theme="dark"]{--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--chip:#2c261e;--hi:#ef6a5a;--md:#e0b64a;--lo:#6cc592;--code:#2c261e}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,"Sarabun","Noto Sans Thai",sans-serif;line-height:1.7}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 16px 80px}
+  .back{display:inline-block;margin-bottom:14px;color:var(--muted);font-size:.9rem;text-decoration:none}
+  .back:hover{color:var(--hi)}
+  h1{font-size:1.8rem;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 26px}
+  h2{font-size:1.2rem;margin:34px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+  .lead{border-left:4px solid var(--hi);padding:10px 14px;background:var(--card);border-radius:0 10px 10px 0;margin:0 0 20px}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--chip);font-size:.78rem;color:var(--muted)}
+  code{background:var(--code);padding:2px 7px;border-radius:6px;font-size:.9em;font-family:ui-monospace,Consolas,monospace}
+  .formula{display:block;background:var(--code);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:8px 0;font-family:ui-monospace,Consolas,monospace;font-size:.92rem;overflow-x:auto}
+  ul{margin:8px 0 8px 0;padding-left:22px} li{margin:5px 0}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;padding:1px 9px;border-radius:20px;color:#fff;margin-left:6px}
+  .t-main{background:var(--hi)} .t-info{background:var(--md)} .t-help{background:var(--lo)}
+  .small{font-size:.85rem;color:var(--muted)}
+  .tablewrap{overflow-x:auto}
+  b{color:var(--ink)}
+  a{color:var(--hi)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="../index.html">← กลับหน้าแรก</a>
+<h1>⚔️ เรือรบอิลลาเจอร์และ Invoker</h1>
+<p class="sub">วิธีเคลียร์เรือรบ · ตัวเลขอ้างอิงจากข้อมูลของ Core และการทดสอบบนแพ็ก 1.4.1</p>
+
+<p class="lead"><b>สรุปสั้น:</b> เรือรบแต่ละลำมี <b>Invoker เพียงตัวเดียว</b> เป็นบอสที่ธนู ระเบิด ไฟ และลาวา <b>ฆ่าไม่ได้</b> ต้องสู้ระยะประชิดเท่านั้น เตรียม <b>เครื่องดื่ม</b> (ไวน์ น้ำผลไม้) ไว้มากกว่าจานอาหาร และกินจานบัฟก่อนออกเรือ</p>
+
+<h2>1. เรือรบมีอะไรบ้าง</h2>
+<div class="card">
+<ul>
+<li><b>อิลลาเจอร์ 28 ตัว:</b> Pillager 15, Vindicator 3, Illusioner 2 และลูกเรือบนดาดฟ้าอีก 8 ตัว (Inquisitor, Basher 2, Marauder, Provoker, Alchemist, Sorcerer และ Invoker) ประมาณ 70% ของตัว vanilla ถูกเปลี่ยนเป็นตัวของ Illager Invasion</li>
+<li>ลูกเรือทุกตัวมี <b>เลือด ×3, ดาเมจ ×1.5 และเกราะ +4</b></li>
+<li><b>Spawner ของ Pillager 1 อัน</b> อยู่ในห้องเก็บของ ใต้ฝาช่องกลางดาดฟ้าพอดี ทุบได้จากดาดฟ้าโดยเจาะฝาลงไป</li>
+<li><b>ในน้ำรอบเรือ:</b> Drowned ถือตรีศูล 8–10 ตัว ฉลามได้ถึง 18 ตัว และหมึกยักษ์ ฉลามไม่โจมตีคนที่อยู่บนเรือพาย แต่โจมตีคนที่ว่ายน้ำ</li>
+<li>ชนะแล้ว สิ่งมีชีวิตในน้ำจะหายไปเมื่อคุณแล่นออกไป และเรือเป็นของคุณ</li>
+</ul>
+</div>
+
+<h2>2. Invoker <span class="tag t-main">บอส</span></h2>
+<div class="card">
+<ul>
+<li>เลือด <b>750</b> เกราะ 14 (ความทนเกราะ 4) มี Resistance I และต้านไฟ ไม่ถูกผลักถอยเมื่อโดนตี</li>
+<li>เสก <b>เขี้ยว</b> ใส่ผู้เล่นในระยะ 20 บล็อกทุก 5 วินาที</li>
+<li><b>ตอนเลือดต่ำกว่าครึ่ง</b> จะคลั่ง: เสกเขี้ยวถี่ขึ้นเป็นทุก 3 วินาที ได้ Resistance II และ Regeneration II และเรียก Vex 3 ตัว</li>
+<li>ดรอปหนังสือเอนชานต์ และผงเบลซหรือไข่มุกเอนเดอร์</li>
+</ul>
+</div>
+
+<h2>3. ต้องสู้ระยะประชิดเท่านั้น <span class="tag t-main">สำคัญ</span></h2>
+<div class="card">
+<ul>
+<li><b>โล่ป้องกัน projectile:</b> ธนูหรือ projectile อื่นที่ยิงโดน มีโอกาส 50% ที่มันจะกางโล่ ระหว่างกางโล่มันไม่รับดาเมจจาก projectile เลย</li>
+<li>โล่แตกได้ <b>จากการตีระยะประชิดเท่านั้น</b> โอกาส 1 ใน 3 ต่อครั้ง</li>
+<li><b>ไม่รับดาเมจจากระเบิด</b> ทุกชนิด (TNT ใช้ไม่ได้)</li>
+<li>ต้านไฟอยู่แล้ว ไฟและลาวาจึงฆ่ามันไม่ได้</li>
+<li>สรุป: ธนู ระเบิด ไฟ ลาวา ใช้ <b>เคลียร์ลูกเรือ</b> ได้ แต่ใช้ฆ่า Invoker ไม่ได้ ต้องเข้าไปตีเอง</li>
+</ul>
+</div>
+
+<h2>4. ของที่ควรเตรียม</h2>
+<div class="card">
+<p>ผลทดสอบดวล Invoker ตัวเดียว (บอท เกราะ Netherite Protection IV, ดาบ Sharpness V, Totem 5 อัน, ระดับ Hard):</p>
+<div class="tablewrap"><table>
+<tr><th>ชุดที่ใช้</th><th>ผล</th><th>เวลาสู้</th><th>ของที่ใช้</th></tr>
+<tr><td>ยา + แอปเปิลทอง</td><td>ชนะ ไม่ใช้ Totem</td><td>12.5 นาที</td><td>แอปเปิลทอง 64 + เอนชานต์ 4 + ยา 12</td></tr>
+<tr><td>อาหาร + เครื่องดื่ม (ไม่มีสกิล)</td><td>ชนะ ไม่ใช้ Totem</td><td>9.3 นาที</td><td>Jellie Wine 14, Apple Juice 15, Apple Cider 6 และจานอาหารไม่กี่จาน</td></tr>
+<tr><td>อาหาร + เครื่องดื่ม + สกิล Chef/Angler/Farmer ชุดเต็ม</td><td>ชนะ ไม่ใช้ Totem</td><td>ประมาณ 5.5 นาที</td><td>รวม 8 ชิ้นเท่านั้น</td></tr>
+</table></div>
+<ul>
+<li><b>เครื่องดื่มคือตัวหลัก:</b> ระหว่างสู้หลอดอาหารเต็มเกือบตลอด เพราะเครื่องดื่มเติมความหิว จานอาหารจึงกินได้แค่ไม่กี่ครั้ง ส่วน <b>Jellie Wine</b> (Regeneration + Absorption) ทำหน้าที่แทนแอปเปิลทอง</li>
+<li>เตรียม <b>Totem of Undying</b> ติดตัว และ <b>ยาหรือเครื่องดื่มต้านไฟ</b> สำหรับตอนเคลียร์ลูกเรือ</li>
+<li>สกิลช่วยเยอะมาก ชุดที่ทดสอบ (Spice Master, Kitchen Fire, Big Appetite, Leviathan Bane, Deep Fighter ฯลฯ) ใช้ XP รวมประมาณ 87,000 ตั้งแต่ 1.4.3 Chef และ Angler ได้ XP เพิ่ม 5 เท่า จึงไปถึงได้เร็วขึ้น</li>
+<li>เป็นผลของบอทที่ทดสอบรอบละ 1 ครั้ง ผู้เล่นจริงอาจต่างกัน</li>
+</ul>
+<p class="small">รายละเอียดเครื่องดื่มและบัฟอยู่ที่หน้า <a href="food-system.html">ระบบอาหาร</a></p>
+</div>
+
+<h2>5. กินบัฟก่อนออกเรือ</h2>
+<div class="card">
+<ul>
+<li>ตอนหลอดอาหารเต็ม คุณกินอาหารไม่ได้ (ข้อจำกัดของ Minecraft) กินจานบัฟก่อนออกเรือ <b>ตอนที่เริ่มหิวแล้ว</b></li>
+<li>จาน Gourmet อยู่ได้ 7 นาที และ Feast อยู่ได้ 10 นาที (Strength I + Resistance I)</li>
+<li>ระหว่างสู้ใช้เครื่องดื่มเติมบัฟ เพราะดื่มได้แม้หลอดเต็ม</li>
+</ul>
+</div>
+
+<h2>6. กลยุทธ์ที่ใช้ได้ (และข้อแลกเปลี่ยน)</h2>
+<div class="card">
+<ul>
+<li><b>ยิงจากเสาสูง:</b> ทดสอบสร้างเสาสูงห่างจากเรือ 28 บล็อกแล้วยิงธนู Infinity ฆ่าลูกเรือได้ 15 จาก 28 ตัวโดยไม่เสียเลือดเลย (ใช้ธนู 245 นัด ประมาณ 10 นาที)</li>
+<li><b>ทุบ Spawner จากดาดฟ้า:</b> เจาะฝาช่องกลางดาดฟ้าแล้วทุบได้ใน 5 วินาที</li>
+<li><b>เทลาวาลงห้องเก็บของ:</b> ไฟลามไปทั้งลำเผาตัวที่ซ่อนอยู่ข้างล่าง แต่เรือพังเป็นรู ตกน้ำง่ายขึ้น และบาร์เรลกับของในเรือไหม้หมด</li>
+<li><b>อย่าบุกตรงๆ ตั้งแต่แรก:</b> การบุกลงห้องเก็บของท่ามกลางศัตรูทั้งฝูงตายใน 68 วินาทีในการทดสอบ</li>
+<li><b>หลีกเลี่ยงการตกน้ำ:</b> ฉลามและ Drowned รอทำร้ายคนที่ว่าย เตรียมวิธีกลับขึ้นเรือ (เรือพาย บันได)</li>
+</ul>
+</div>
+
+<h2>7. ข้อควรรู้เพิ่มเติม</h2>
+<div class="card">
+<ul>
+<li>บางครั้ง Invoker ตกทะเล ถ้าลอยไปไกลเกิน 56 บล็อก ระบบอาจนับว่าเรือถูกเคลียร์ทั้งที่ยังไม่ได้ฆ่ามัน ถ้าไม่ได้ฆ่ามันเอง ก็จะไม่ได้ของดรอปจากมัน จึงควรฆ่ามันบนเรือ</li>
+<li>เรือที่เกิดมามี Invoker สองตัวจะถูกแก้ให้เหลือตัวเดียวตอนโหลด</li>
+<li>เรือรบอยู่กลางทะเลลึก ใช้ <a href="../index.html#combat">หน้าแรกหัวข้อการต่อสู้</a> ประกอบ</li>
+</ul>
+</div>
+
+<p class="small" style="margin-top:24px">อ้างอิง: บันทึกทดสอบเคลียร์เรือคนเดียวและดวล Invoker (14 ต.ค. 2026 บนเซิร์ฟทดสอบ) · ข้อมูลโครงสร้างเรือจาก Core</p>
+</div>
+</body>
+</html>

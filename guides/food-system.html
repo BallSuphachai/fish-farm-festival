@@ -11,6 +11,8 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,"Sarabun","Noto Sans Thai",sans-serif;line-height:1.7}
   .wrap{max-width:920px;margin:0 auto;padding:32px 16px 80px}
+  .back{display:inline-block;margin-bottom:14px;color:var(--muted);font-size:.9rem;text-decoration:none}
+  .back:hover{color:var(--hi)}
   h1{font-size:1.8rem;margin:0 0 4px}
   .sub{color:var(--muted);margin:0 0 26px}
   h2{font-size:1.2rem;margin:34px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
@@ -26,14 +28,16 @@
   .t-main{background:var(--hi)} .t-info{background:var(--md)} .t-help{background:var(--lo)}
   .small{font-size:.85rem;color:var(--muted)}
   b{color:var(--ink)}
+  a{color:var(--hi)}
 </style>
 </head>
 <body>
 <div class="wrap">
+<a class="back" href="../index.html">← กลับหน้าแรก</a>
 <h1>🍽️ ระบบอาหารของ Fish Farm Festival</h1>
-<p class="sub">สรุปวิธีทำงานของการกินอาหารทั้งหมดในแพ็ก · อ้างอิงจากไฟล์ตั้งค่าจริงบนเซิร์ฟเวอร์ 1.3.1</p>
+<p class="sub">สรุปวิธีทำงานของการกินอาหารและการดื่มทั้งหมดในแพ็ก · อ้างอิงจากไฟล์ตั้งค่าและการทดสอบของแพ็ก 1.4.3</p>
 
-<p class="lead"><b>สรุปสั้น:</b> การที่หลอดอาหาร "เต็มยาก" ไม่ใช่บั๊ก แต่เป็นระบบของมอด <b>Spice of Fabric</b> ที่ตั้งใจให้ "กินอาหารชนิดเดิมซ้ำ = อิ่มน้อยลง" เพื่อผลักดันให้ทำและกินอาหารหลากหลาย วิธีแก้คือหมุนเวียนกินหลายเมนู</p>
+<p class="lead"><b>สรุปสั้น:</b> หลอดอาหาร "เต็มยาก" ไม่ใช่บั๊ก แต่เป็นระบบของมอด <b>Spice of Fabric</b> ที่ตั้งใจให้ "กินชนิดเดิมซ้ำ = อิ่มน้อยลง" เพื่อให้คุณทำและกินอาหารหลากหลาย ส่วนเมนูที่ยากกว่าจะอิ่มกว่า ให้บัฟนานกว่า และ <b>เครื่องดื่ม (ไวน์ น้ำผลไม้ ชา)</b> คือของหลักตอนออกไปสู้ ไม่ใช่จานอาหาร</p>
 
 <h2>1. พื้นฐานหลอดอาหาร (Vanilla)</h2>
 <div class="card">
@@ -42,76 +46,162 @@
 <li>วิ่ง กระโดด สู้ ขุด จะกิน Saturation ก่อน พอ Saturation หมด หลอดอาหารที่เห็นถึงจะเริ่มลด</li>
 <li>ฟื้นเลือดเองได้เมื่อหลอดอาหาร <b>≥ 18</b> (ไก่ 9 อัน) ถ้ายังมี Saturation เหลือจะฟื้นเร็ว</li>
 <li>ต่ำกว่า 6 (ไก่ 3 อัน) วิ่งไม่ได้ · ถ้าเป็น 0 เริ่มเสียเลือด</li>
+<li>ตอนเกิดใหม่หลังตาย หลอดอาหารจะไม่ต่ำกว่า 14</li>
 </ul>
 </div>
 
 <h2>2. Spice of Fabric — ระบบ "กินซ้ำได้อิ่มน้อยลง" <span class="tag t-main">ตัวการหลัก</span></h2>
 <div class="card">
-<p>มอดนี้จำ <b>อาหาร 20 อย่างล่าสุด</b> ที่คุณกิน (<code>history-length: 20</code>) แล้วคิดค่าอิ่มตามสูตรจริงในไฟล์:</p>
-<span class="formula">อิ่มที่ได้ = ค่าอิ่มพื้นฐาน × 0.7 ^ (จำนวนครั้งที่อาหารชิ้นนี้อยู่ในประวัติ 20 อันล่าสุด)</span>
-<p>ยิ่งกินชนิดเดิมซ้ำ ค่าอิ่มยิ่งหด และยังใช้เวลากินนานขึ้นด้วย (<code>× 1.3 ^ ครั้ง</code>):</p>
+<p>มอดนี้จำ <b>อาหาร 20 อย่างล่าสุด</b> ที่คุณกิน แล้วคิดค่าอิ่มตามสูตรจริงในไฟล์ตั้งค่า:</p>
+<span class="formula">อิ่มที่ได้ = ค่าอิ่มพื้นฐาน × 0.65 ^ (จำนวนครั้งที่อาหารชิ้นนี้อยู่ในประวัติ 20 อันล่าสุด)</span>
 <table>
-<tr><th>กินชนิดเดิมครั้งที่</th><th>ได้อิ่ม (% ของปกติ)</th><th>เวลาที่ใช้กิน</th></tr>
-<tr><td>1 (ใหม่)</td><td>100%</td><td>ปกติ</td></tr>
-<tr><td>2</td><td>70%</td><td>ช้าลง 1.3 เท่า</td></tr>
-<tr><td>3</td><td>49%</td><td>1.7 เท่า</td></tr>
-<tr><td>4</td><td>34%</td><td>2.2 เท่า</td></tr>
-<tr><td>5</td><td>24%</td><td>2.9 เท่า</td></tr>
-<tr><td>6 ขึ้นไป</td><td>17% แล้วลดลงเรื่อยๆ</td><td>ช้าขึ้นเรื่อยๆ</td></tr>
+<tr><th>กินชนิดเดิมครั้งที่</th><th>ได้อิ่ม (% ของปกติ)</th></tr>
+<tr><td>1 (ใหม่)</td><td>100%</td></tr>
+<tr><td>2</td><td>65%</td></tr>
+<tr><td>3</td><td>42%</td></tr>
+<tr><td>4</td><td>27%</td></tr>
+<tr><td>5</td><td>18%</td></tr>
+<tr><td>6 ขึ้นไป</td><td>12% แล้วลดลงเรื่อยๆ</td></tr>
 </table>
 <ul>
 <li>กินขนมปังหรือพืชชนิดเดียวรัวๆ ประวัติ 20 อันจะเต็มไปด้วยของชนิดนั้น ค่าอิ่มเหลือแทบเป็นศูนย์ หลอดเลยไม่ยอมเต็ม</li>
-<li><b>Saturation ยังได้เต็มปกติ</b> (สูตร saturation ไม่ถูกลด) เลือดยังฟื้นได้ถ้าหลอดสูงพอ แต่ตัวหลอดที่เห็นจะเติมยาก</li>
-<li>ประวัติยาว 20 ช่อง — ถ้าสลับกินของอื่นครบราว 20 อย่าง ของเดิมจะ "รีเซ็ต" กลับมาได้เต็มค่าอีกครั้ง</li>
-<li><b>ระบบนี้ไม่แตะหัวใจสูงสุด</b> — โหมด carrot ปิดอยู่ (<code>carrot.enable: false</code>) ลดแค่ค่าอิ่มต่อคำ ไม่ลดเลือดสูงสุด</li>
+<li><b>Saturation ยังได้เต็มปกติ</b> เลือดยังฟื้นได้ถ้าหลอดสูงพอ แต่ตัวหลอดที่เห็นจะเติมยาก</li>
+<li>ถ้าสลับกินของอื่นครบราว 20 อย่าง ของเดิมจะ "รีเซ็ต" กลับมาได้เต็มค่าอีกครั้ง</li>
+<li><b>ระบบนี้ไม่แตะหัวใจสูงสุด</b> ลดแค่ค่าอิ่มต่อคำ</li>
+<li>เอาเมาส์ชี้อาหารจะเห็นใน tooltip ว่าช่วงหลังคุณกินชนิดนี้ไปกี่ครั้ง</li>
+<li>เวลากินคงที่ ไม่ช้าลงเมื่อกินซ้ำ (ทดสอบบนเซิร์ฟเวอร์แล้ว)</li>
 </ul>
 </div>
 
-<h2>3. Diet — ระบบโภชนาการ <span class="tag t-info">คนละเรื่องกับหลอดอาหาร</span></h2>
+<h2>3. โบนัสอิ่มตามระดับจาน <span class="tag t-help">กินซ้ำก็ยังได้</span></h2>
+<div class="card">
+<p>ทุกครั้งที่กินจานที่มีบัฟ (Basic ขึ้นไป) คุณได้ความอิ่มเพิ่มตามระดับของจาน และ <b>Spice of Fabric ไม่หักส่วนนี้</b> เมนูระดับสูงจึงคุ้มค่าแม้กินซ้ำ</p>
+<table>
+<tr><th>ระดับ</th><th>อิ่มเพิ่ม</th></tr>
+<tr><td>Simple</td><td>+0</td></tr>
+<tr><td>Basic</td><td>+1</td></tr>
+<tr><td>Complex</td><td>+2</td></tr>
+<tr><td>Gourmet</td><td>+3</td></tr>
+<tr><td>Feast</td><td>+4</td></tr>
+</table>
+<p class="small">ตัวอย่างที่วัดจริง: ไข่ดาว (Simple) กินครั้งแรกอิ่ม 4 ครั้งที่สอง 3 · กะหล่ำปลีม้วน (Basic) ครั้งแรกอิ่ม 6 · สลัดผลไม้ (Gourmet) ครั้งแรกอิ่ม 9 ครั้งที่สอง 7</p>
+<p><b>เครื่องดื่ม (น้ำผลไม้ ชา) ไม่ได้โบนัสนี้</b> แต่ยังได้บัฟและ Chef XP เหมือนเดิม</p>
+</div>
+
+<h2>4. บัฟจากอาหาร</h2>
+<div class="card">
+<p>ทุกเมนูจากมอดให้บัฟ เมนูที่ยากกว่าอยู่ได้นานกว่า กลุ่มเมนูหนักๆ (hearty) ได้ Strength I + Resistance I:</p>
+<table>
+<tr><th>ระดับ</th><th>บัฟ</th><th>นาน</th></tr>
+<tr><td>Simple</td><td>Strength I + Resistance I</td><td>1 นาที</td></tr>
+<tr><td>Basic</td><td>เหมือนกัน</td><td>2 นาที</td></tr>
+<tr><td>Complex</td><td>เหมือนกัน</td><td>4 นาที</td></tr>
+<tr><td>Gourmet</td><td>เหมือนกัน + Health Boost I</td><td>7 นาที</td></tr>
+<tr><td>Feast</td><td>เหมือนกัน + Regeneration I 30 วินาที + Luck</td><td>10 นาที</td></tr>
+</table>
+<ul>
+<li><b>อาหารทะเล</b> ให้ Luck + Water Breathing · <b>ของหวาน</b> ให้ Speed + Haste</li>
+<li>Resistance จากอาหารได้แค่ระดับ I (ลดดาเมจ 20%) และไม่มีอาหารชนิดไหนฮีลเลือดทันที</li>
+<li>บัฟจากมอดอื่นที่ทำงานเอง: <b>Comfort</b> และ <b>Nourishment</b> ของ Farmer's Delight (ฟื้นเลือดแม้หิว และหลอดอาหารไม่ลด) กับ <b>Sustenance</b> และ <b>Farmer's Blessing</b> ของ Farm &amp; Charm</li>
+</ul>
+</div>
+
+<h2>5. จานประจำฤดูกาล <span class="tag t-help">ใหม่ใน 1.4.0</span></h2>
+<div class="card">
+<p>ทุกฤดูมี 1 จานเด่น กินในฤดูของมันเองจะได้ <b>อิ่มเพิ่ม +1, บัฟประจำฤดู และ Chef XP สองเท่า</b></p>
+<table>
+<tr><th>ฤดู</th><th>จาน</th><th>บัฟ</th></tr>
+<tr><td>ใบไม้ผลิ</td><td>Creamy Asparagus Soup</td><td>Haste</td></tr>
+<tr><td>ฤดูร้อน</td><td>Fish Stew</td><td>Dolphin's Grace</td></tr>
+<tr><td>ใบไม้ร่วง</td><td>Stuffed Pumpkin</td><td>Regeneration</td></tr>
+<tr><td>ฤดูหนาว</td><td>Barley Soup</td><td>Fire Resistance</td></tr>
+</table>
+<ul>
+<li>ส่งจานประจำฤดูให้พ่อค้าเทศกาลได้ 3 Festival Token พร้อมแสตมป์ (ดู <a href="festival.html">คู่มือเทศกาล</a>)</li>
+<li>เมนูที่ถูกยกเป็น <b>Gourmet</b> เพราะสูตรต้องใช้วัตถุดิบแปรรูปหรือพืชสองฤดู: Stuffed Cod, Squid Ink Pasta, Cheesy Asparagus and Bacon, Pasta with Meatballs</li>
+</ul>
+</div>
+
+<h2>6. ปลาจาก Tide ทำอาหารได้แล้ว <span class="tag t-help">ใหม่ใน 1.4.3</span></h2>
+<div class="card">
+<ul>
+<li>ปลาจากมอด Tide ทั้ง 101 ชนิดนับเป็น <b>ปลาดิบ</b> ใส่ในหม้อและสูตรที่ใช้ปลาดิบของ Farmer's Delight ได้เหมือนปลาทั่วไป</li>
+<li>ปลาสุกของ Tide ให้บัฟและ Chef XP แล้ว: Cooked Fish, Small Cooked Fish, Cooked Fish Slice นับเป็นอาหารทะเลระดับ <b>Simple</b> ส่วน Large Cooked Fish และ Grilled Tuna ระดับ <b>Basic</b></li>
+<li><b>Chef XP เพิ่มเป็น 5 เท่า</b> ใน 1.4.3 ทั้งการกินจาน ค้นพบจานใหม่ และจานประจำฤดู ส่วน Angler XP ก็เพิ่ม 5 เท่าเช่นกัน (เหรียญ Derby ปรับให้ยากเท่าเดิมแล้ว)</li>
+</ul>
+</div>
+
+<h2>7. เครื่องดื่ม — ของหลักตอนออกไปสู้ <span class="tag t-main">สำคัญ</span></h2>
+<div class="card">
+<p>ทดสอบดวลกับ Invoker บนเรือรบแล้ว ผลคือ <b>เครื่องดื่มทำงานแทนยาและแอปเปิลทองได้จริง</b> และเก่งกว่าอาหารในการสู้ เพราะดื่มได้แม้หลอดอาหารเต็ม ส่วนจานอาหารกินไม่ได้ตอนอิ่ม</p>
+<ul>
+<li><b>Jellie Wine (Vinery):</b> Regeneration + Absorption ทำหน้าที่แทนแอปเปิลทอง</li>
+<li><b>Aegis Wine:</b> เกราะ +4 และความทนเกราะ +6 · <b>Eiswein:</b> เกราะ +6 และดาเมจ +4 (แต่ช้าลง 5%) · <b>Stal Wine:</b> เลือดสูงสุด +3 · <b>Solaris:</b> Health Boost · <b>Apple Wine:</b> Resistance</li>
+<li><b>Apple Juice:</b> เมื่อมีสกิล Chef ครบชุดต่อสู้ ขวดเดียวให้ Strength II + Resistance I + ต้านไฟ + Absorption + Regeneration 5 วินาที</li>
+<li><b>ไวน์ยิ่งบ่มยิ่งแรง:</b> ไวน์ใหม่ได้ระดับ I นาน 90 วินาที ทุกปีในเกมที่บ่ม (24 วัน) เพิ่ม 10 วินาที และทุก 6 ปี (144 วัน) ขึ้นหนึ่งระดับ สูงสุดระดับ V นาน 12.5 นาที</li>
+<li><b>Brewery:</b> ผล "Touch" ของเครื่องดื่มจะส่งไปที่ <b>เป้าหมายที่คุณตี</b> ไม่ใช่ตัวคุณ เล่นคนเดียวจึงใช้ไม่ได้ผล</li>
+<li>เครื่องดื่มไม่ได้โบนัสอิ่มตามระดับ แต่ยังได้บัฟและ Chef XP</li>
+</ul>
+<p class="small">เครื่องดื่มที่ดื่มได้แม้หลอดอาหารเต็ม: แอปเปิลทองเอนชานต์, ไวน์, น้ำผลไม้, ชา, ไซเดอร์, โกโก้, เบียร์, นม, Chorus Fruit และน้ำผึ้ง</p>
+</div>
+
+<h2>8. กินบัฟก่อนออกเรือ</h2>
+<div class="card">
+<p>ตอนหลอดอาหารเต็ม (20) คุณ <b>กินอาหารทุกชนิดไม่ได้</b> รวมถึงแอปเปิลทองธรรมดา (ข้อจำกัดของเกม vanilla) บัฟจากจานจึงต้องกิน <b>ตอนที่หลอดอาหารไม่เต็ม</b></p>
+<ul>
+<li>กินจานบัฟก่อนออกเรือตอนที่เริ่มหิว (หรือใช้งานจนหลอดลดต่ำกว่า 20)</li>
+<li>ระหว่างสู้ให้ใช้เครื่องดื่มเป็นหลัก เพราะดื่มได้ตลอด</li>
+<li>บัฟจากจานระดับ Gourmet และ Feast นานพอสำหรับการเคลียร์เรือส่วนใหญ่ (7 และ 10 นาที)</li>
+</ul>
+</div>
+
+<h2>9. Diet — ระบบโภชนาการ <span class="tag t-info">คนละเรื่องกับหลอดอาหาร</span></h2>
 <div class="card">
 <ul>
 <li>อาหารแต่ละอย่างจัดอยู่ในกลุ่มโภชนาการ (ผัก ผลไม้ โปรตีน ธัญพืช น้ำตาล) ดูแถบได้ในช่องอินเวนทอรี</li>
-<li>ตาย 1 ครั้งเสียค่าโภชนาการ <b>40%</b> ของแต่ละกลุ่ม (<code>deathPenaltyLoss = 40</code>, แบบ PERCENT)</li>
-<li><b>ไม่ได้ทำให้หลอดอาหารลด</b> — เป็นตัวส่งเสริมการกินหลากหลาย และซ่อน tooltip กลุ่มอาหารจนกว่าจะเคยกิน</li>
-<li>เข้าทางเดียวกับ Spice of Fabric คือให้รางวัลกับการกินหลากหลาย</li>
+<li>ตาย 1 ครั้งเสียค่าโภชนาการ <b>40%</b> ของแต่ละกลุ่ม</li>
+<li><b>ไม่ได้ทำให้หลอดอาหารลด</b> เป็นตัวส่งเสริมการกินหลากหลาย</li>
 </ul>
 </div>
 
-<h2>4. AppleSkin — แค่หน้าจอ <span class="tag t-info">ไม่เปลี่ยนกลไก</span></h2>
+<h2>10. AppleSkin — แค่หน้าจอ <span class="tag t-info">ไม่เปลี่ยนกลไก</span></h2>
 <div class="card">
-<p>แสดงตัวเลข Saturation และพรีวิวว่าอาหารที่ถืออยู่จะเติมหลอดเท่าไรตอนเล็ง ช่วยวางแผนได้ แต่ไม่มีผลต่อความยาก</p>
+<p>แสดงตัวเลข Saturation และพรีวิวว่าอาหารที่ถืออยู่จะเติมหลอดเท่าไร ช่วยวางแผนได้ แต่ไม่มีผลต่อความยาก</p>
 </div>
 
-<h2>5. ตัวช่วยในแพ็กที่บรรเทาเรื่องนี้ได้ <span class="tag t-help">ทางออก</span></h2>
+<h2>11. สกิล Chef ที่เกี่ยวข้อง <span class="tag t-help">ทางออก</span></h2>
 <div class="card">
 <ul>
-<li><b>สาย Chef ในสกิล:</b> Hearty Portions (เมนู Gourmet/Feast คืน Saturation), Iron Stomach (ไม่โดนพิษอาหาร/เวียนหัว), Big Appetite (Absorption), Comfort Food (Regen), Head Chef / Master Taster (+1 หัวใจ)</li>
-<li><b>บัฟอาหาร FFF:</b> ทุกเมนูจากมอดให้บัฟ เมนูยากอยู่ได้นานกว่า</li>
-<li>สาย Chef คือคำตอบระยะยาวของเรื่องอาหาร</li>
+<li><b>Hearty Portions:</b> เมนู Gourmet และ Feast ให้อิ่มเพิ่มอีก +4</li>
+<li><b>Kitchen Fire:</b> เมนูหนักๆ ให้ต้านไฟ ใช้แทนยาต้านไฟได้</li>
+<li><b>Ironbelly:</b> Resistance นานขึ้น 50% และได้ Absorption · <b>Big Appetite:</b> ทุกจานให้ Absorption I 60 วินาที</li>
+<li><b>Spice Master:</b> Strength II ใช้แทนยา Strength II ได้ · <b>Comfort Food:</b> Regeneration I 5 วินาที</li>
+<li><b>Head Chef / Master Taster:</b> หัวใจเพิ่ม</li>
+</ul>
+<p class="small">รายละเอียดทุกโหนดอยู่ใน <a href="skill-tree.html">คู่มือ Skill Tree</a></p>
+</div>
+
+<h2>12. เครื่องเทศ: ต้นอบเชย (Cinnamon)</h2>
+<div class="card">
+<ul>
+<li>ตัด Cinnamon Log จะมีโอกาส 15% ต่อท่อนที่ Cinnamon Sapling ร่วง (ไม่ร่วงถ้าใช้ Silk Touch) หรือคราฟต์จาก Oak Sapling กับอบเชย</li>
+<li>ต้นกล้าที่คุณวางเอง <b>โตเอง</b> โดยเฉลี่ยประมาณ 17 นาที ถ้าแสงเหนือต้นกล้า ≥ 9 และมีที่ว่างพอ ถ้าไม่มีที่ ต้นกล้าจะอยู่ต่อรอ</li>
+<li>ใช้ได้กับต้นกล้าที่วางหลังอัปเดต 1.4.3 เท่านั้น ต้นที่วางก่อนหน้า หรือวางด้วย Dispenser จะไม่โตเอง</li>
 </ul>
 </div>
 
-<h2>วิธีเล่นให้หลอดเต็มง่าย</h2>
+<h2>วิธีเล่นให้หลอดเต็มง่ายและสู้ได้นาน</h2>
 <div class="card">
 <ul>
 <li>หมุนเวียนพก <b>อาหาร 6–10 ชนิด</b> ไม่กินซ้ำติดกัน</li>
-<li>เน้นเมนูใหญ่อย่าง <b>Feast / Gourmet</b> ที่ค่าอิ่มพื้นฐานสูง ถึงโดนหัก 0.7 ก็ยังเติมได้เยอะ</li>
-<li>ใช้อาหารหลากหลายจาก Farmer's Delight, Farm &amp; Charm, Vinery, Expanded Delight ฯลฯ ที่แพ็กมีให้เยอะอยู่แล้ว</li>
-<li>ลงทุนสาย Chef เพื่อคืน Saturation และกันพิษอาหาร</li>
+<li>เน้นเมนู <b>Gourmet / Feast</b> ที่ค่าอิ่มพื้นฐานสูง และได้โบนัสอิ่มตามระดับทุกครั้ง</li>
+<li>กินจานประจำฤดูในฤดูของมัน ได้อิ่มเพิ่ม บัฟ และ Chef XP สองเท่า</li>
+<li>ปลูกองุ่นและทำไวน์ไว้ล่วงหน้า ไวน์ที่บ่มนานแรงกว่ามาก</li>
+<li>ลงทุนสาย Chef: Spice Master, Big Appetite, Kitchen Fire ช่วยให้เครื่องดื่มและจานทำหน้าที่แทนยาได้</li>
 </ul>
 </div>
 
-<h2>ถ้าจะปรับให้ง่ายลงในอนาคต</h2>
-<div class="card">
-<p class="small">ยังไม่ได้ปรับ — บันทึกไว้เป็นตัวเลือก แก้ที่ <code>config/spiceoffabric.hjson</code> ทั้งฝั่ง client และ server ให้ตรงกัน:</p>
-<ul>
-<li><b>ผ่อนการหักลง:</b> เปลี่ยน <code>0.7</code> ในสูตร hunger เป็น <code>0.85</code> (กินซ้ำหักน้อยลง)</li>
-<li><b>ลดความยาวประวัติ:</b> <code>history-length: 20</code> → <code>10</code> (ของเดิมรีเซ็ตเร็วขึ้น)</li>
-<li><b>ปิดระบบทั้งหมด:</b> ตั้งสูตร hunger เป็น <code>hungerValue</code> เฉยๆ (กลับเป็นเหมือน vanilla)</li>
-</ul>
-</div>
-
-<p class="small" style="margin-top:24px">ไฟล์อ้างอิง: <code>config/spiceoffabric.hjson</code>, <code>config/diet-server.toml</code>, <code>config/appleskin.json5</code> · เวอร์ชันแพ็ก 1.3.1</p>
+<p class="small" style="margin-top:24px">ไฟล์อ้างอิง: <code>config/spiceoffabric.hjson</code>, <code>config/diet-server.toml</code>, <code>config/appleskin.json5</code> · เวอร์ชันแพ็ก 1.4.3 · ตัวเลขการทดสอบ Invoker จากบอทบนเซิร์ฟทดสอบ (ผู้เล่นจริงอาจต่างกัน)</p>
 </div>
 </body>
 </html>

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>เทศกาลและพ่อค้าเทศกาล FFF</title>
+<style>
+  :root{--bg:#f6f1e7;--card:#fffdf8;--ink:#2a241c;--muted:#6d6456;--line:#e3d9c6;--chip:#efe7d6;--hi:#c0442f;--md:#b8860b;--lo:#2f8a5c;--code:#f0e8d6}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--chip:#2c261e;--hi:#ef6a5a;--md:#e0b64a;--lo:#6cc592;--code:#2c261e}}
+  :root[data-theme="dark"]{--bg:#17140f;--card:#211d17;--ink:#ede6d8;--muted:#a79d8c;--line:#3a3329;--chip:#2c261e;--hi:#ef6a5a;--md:#e0b64a;--lo:#6cc592;--code:#2c261e}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,"Sarabun","Noto Sans Thai",sans-serif;line-height:1.7}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 16px 80px}
+  .back{display:inline-block;margin-bottom:14px;color:var(--muted);font-size:.9rem;text-decoration:none}
+  .back:hover{color:var(--hi)}
+  h1{font-size:1.8rem;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 26px}
+  h2{font-size:1.2rem;margin:34px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+  .lead{border-left:4px solid var(--hi);padding:10px 14px;background:var(--card);border-radius:0 10px 10px 0;margin:0 0 20px}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--chip);font-size:.78rem;color:var(--muted)}
+  .tablewrap{overflow-x:auto}
+  code{background:var(--code);padding:2px 7px;border-radius:6px;font-size:.9em;font-family:ui-monospace,Consolas,monospace}
+  ul{margin:8px 0 8px 0;padding-left:22px} li{margin:5px 0}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;padding:1px 9px;border-radius:20px;color:#fff;margin-left:6px}
+  .t-main{background:var(--hi)} .t-info{background:var(--md)} .t-help{background:var(--lo)}
+  .small{font-size:.85rem;color:var(--muted)}
+  b{color:var(--ink)}
+  a{color:var(--hi)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="../index.html">← กลับหน้าแรก</a>
+<h1>🎉 เทศกาลและพ่อค้าเทศกาล</h1>
+<p class="sub">ทุกอย่างที่ต้องรู้เกี่ยวกับ 4 เทศกาลของแพ็ก · Festival Token · ใบสั่ง · Stamp Card · ตัวเลขอ้างอิงจากแพ็ก 1.4.3</p>
+
+<p class="lead"><b>สรุปสั้น:</b> ทุกเทศกาลมี <b>พ่อค้าเทศกาล</b> มาหาคุณถึงที่ ทุกอย่างทำที่แผงของพ่อค้า ไม่ต้องพิมพ์คำสั่ง เอาปลาและพืชของฤดูมาขายแลก <b>Festival Token</b> ทำ <b>ใบสั่ง</b> เก็บ <b>แสตมป์</b> แล้วเอา Token ไปซื้อของในร้านของพ่อค้า</p>
+
+<h2>1. ปฏิทินเทศกาล</h2>
+<div class="card">
+<ul>
+<li>1 ฤดู = 24 วันในเกม · 1 ปี = 96 วัน (วันในเกม = 20 นาทีจริง)</li>
+<li>แต่ละเทศกาลเริ่มวันที่ <b>9 ของฤดู</b> และอยู่ <b>16 วัน</b> (วันที่ 9–24) ช่วงวันที่ 1–8 ให้เก็บของของฤดูไว้ก่อน</li>
+<li>พ่อค้าจะ <b>มาหาคุณเอง</b> เมื่อเทศกาลเริ่ม ทุกคนมีพ่อค้าของตัวเอง ถ้าเดินไกลจนหลง ใช้ปุ่ม <b>[Call the merchant]</b> ในแชตเรียกกลับ พ่อค้าไม่รับดาเมจและถูกผลักไม่ได้</li>
+</ul>
+<table>
+<tr><th>ฤดู</th><th>เทศกาล</th><th>วันพิเศษ</th></tr>
+<tr><td>ใบไม้ผลิ</td><td>🌸 Blossom Fair</td><td>Planting Day (วันที่ 4 ของเทศกาล): กลีบเชอร์รีลอยรอบตัวทั้งวัน</td></tr>
+<tr><td>ฤดูร้อน</td><td>🎣 Grand Fishing Derby</td><td>Derby Day (วันที่ 8) แต้มนับสองเท่า จบวันด้วยพลุตอนพระอาทิตย์ตก</td></tr>
+<tr><td>ใบไม้ร่วง</td><td>🍂 Harvest Feast</td><td>Feast Night (คืนวันที่ 12) โคมฟักทองส่องรอบพ่อค้า บัฟจากจาน Gourmet/Feast ที่กินคืนนั้นอยู่นานเป็นสองเท่า</td></tr>
+<tr><td>ฤดูหนาว</td><td>🎄 Christmas</td><td>หิมะตกรอบตัวคืนวันคริสต์มาสอีฟ และของขวัญจากซานต้ารอตอนเช้าวันคริสต์มาส</td></tr>
+</table>
+</div>
+
+<h2>2. Festival Passport — สมุดพกเทศกาล</h2>
+<div class="card">
+<ul>
+<li>พ่อค้าแจก <b>Festival Passport</b> ให้ทุกคนตอนเจอกันครั้งแรก เอาเมาส์ชี้ดูข้อมูลได้เลย: ฤดู วันที่ จำนวนวันก่อนเทศกาล ปลา พืช และจานประจำฤดู ใบสั่งของคุณ แสตมป์ และแต้ม Derby</li>
+<li>อัปเดตเองตลอดเวลาที่อยู่ในกระเป๋า ทำหาย? ขอใหม่ได้ที่พ่อค้าโดยแลกกับกระดาษ 1 แผ่น</li>
+<li>มีหน้าสรุปแบบแชตให้ด้วย พิมพ์ <code>/trigger fff_almanac</code> (เรียกว่า Seasonal Almanac) แต่ไม่จำเป็นต้องใช้</li>
+</ul>
+</div>
+
+<h2>3. ร้านของพ่อค้า — เมนูแบ่งเป็นหมวด</h2>
+<div class="card">
+<p>รายการเทรดแบ่งเป็นหมวด แต่ละหมวดมีแถวหัวข้อที่เทรดไม่ได้ (ชี้ดูคำอธิบายได้):</p>
+<table>
+<tr><th>หมวด</th><th>คืออะไร</th></tr>
+<tr><td><b>Seasonal Orders</b></td><td>ใบสั่ง 3 ใบต่อเทศกาล ใบละพืช + ปลา ได้ Token และ Emerald</td></tr>
+<tr><td><b>In Season</b></td><td>ปลาและพืชประจำฤดู ขายได้ 2 Token ต่อครั้ง ในอัตราที่ดีกว่าปกติ</td></tr>
+<tr><td><b>Sell for Tokens</b></td><td>ของอื่นๆ (ปลา พืช เมนูของเทศกาล) ขายได้ 1 Token ต่อครั้ง</td></tr>
+<tr><td><b>Token Shop</b></td><td>ใช้ Festival Token ซื้อของ รวมถึง <b>Festival Treasure</b> ที่อยู่บนสุด</td></tr>
+<tr><td><b>Emerald Shop</b></td><td>ของฟุ่มเฟือยที่จ่ายด้วย Emerald Block</td></tr>
+</table>
+</div>
+
+<h2>4. In Season — ขายของประจำฤดู <span class="tag t-main">ปรับใน 1.4.3</span></h2>
+<div class="card">
+<ul>
+<li>ทุกรายการจ่าย <b>2 Festival Token ต่อครั้ง</b> ในอัตราที่ดีกว่าการขายทั่วไป (ปลาหายากอย่าง Mahi-Mahi และ Sturgeon ตัวเดียวได้ 2 Token)</li>
+<li>เทรดได้ <b>3 ครั้งต่อรายการต่อวันในเกม</b> (สูงสุด 6 Token ต่อรายการต่อวัน) พอขึ้นวันใหม่ รายการจะ <b>รีสต็อกเอง</b> ไม่ต้องทำอะไร</li>
+<li>จำนวนที่ต้องใช้ต่อ 1 ครั้งดูในตารางด้านล่าง (ผัก/พืชใช้จำนวนมากขึ้นใน 1.4.3 และเพิ่มชนิดปลาที่ตกง่ายให้เลือกเยอะขึ้นแล้ว)</li>
+</ul>
+<div class="tablewrap"><table>
+<tr><th>ฤดู</th><th>ปลา (จำนวนต่อครั้ง)</th><th>พืช (จำนวนต่อครั้ง)</th></tr>
+<tr><td><b>ใบไม้ผลิ</b></td><td>Blossom Bass ×1 · Rainbow Trout ×14 · Brook Trout ×10 · Yellow Perch ×14 · Largemouth Bass ×14 · Black Crappie ×10 · Mackerel ×14</td><td>Strawberry ×15 · Asparagus ×18 · Onion ×30</td></tr>
+<tr><td><b>ฤดูร้อน</b></td><td>Mahi-Mahi ×1 · Tuna ×14 · Largemouth Bass ×14 · Mackerel ×14 · Red Snapper ×14 · Yellow Perch ×14 · Smallmouth Bass ×10</td><td>Tomato ×30 · Chili Pepper ×18 · Rice ×30</td></tr>
+<tr><td><b>ใบไม้ร่วง</b></td><td>Walleye ×5 · Carp ×14 · Catfish ×5 · Yellow Perch ×14 · Largemouth Bass ×14 · Black Crappie ×10 · Ocean Perch ×14</td><td>Red Grape ×15 · Sweet Potato ×30 · Corn ×30</td></tr>
+<tr><td><b>ฤดูหนาว</b></td><td>Sturgeon ×1 · Pike ×14 · Flounder ×14 · Rainbow Trout ×14 · Brook Trout ×10 · Yellow Perch ×14 · Mackerel ×14</td><td>Cabbage ×30 · Barley ×30 · Ginger ×18</td></tr>
+</table></div>
+<p class="small">พืชบางชนิด (Onion, Tomato) มีสองรายการ เพราะมีสองมอดที่ให้พืชชนิดเดียวกัน</p>
+</div>
+
+<h2>5. Sell for Tokens — ขายของทั่วไป</h2>
+<div class="card">
+<ul>
+<li>ได้ <b>1 Token ต่อครั้ง</b> ตัวอย่างอัตรา: ผักเช่น Cabbage, Lettuce, Barley, Oat ใช้ 24 ชิ้น · Hops, Ginger, Chili Pepper 16 ชิ้น · ปลาทั่วไป เช่น Cod, Salmon, Bluegill 10 ตัว · เมนูของเทศกาลบางอย่าง 2–8 ชิ้น</li>
+<li>จำกัดสูงสุด <b>3 Token ต่อรายการต่อวันในเกม</b> (รายการที่ได้ 1 Token เทรดได้ 3 ครั้ง) แล้วรีสต็อกเองตอนขึ้นวันใหม่</li>
+<li>ปลาในหมวดนี้มีเยอะที่สุดตอนฤดูร้อน (Derby)</li>
+</ul>
+<p class="small">เหตุผลของขีดจำกัด: Token เป็นสกุลที่ทำง่าย จึงจำกัดไม่ให้ขายของชนิดเดียวรัวๆ จนได้ Token ท่วม เก็บของหลายชนิดไว้ขายจะได้ผลดีกว่า</p>
+</div>
+
+<h2>6. Seasonal Orders — ใบสั่ง 2 ชุดสลับปี <span class="tag t-main">ใหม่ใน 1.4.3</span></h2>
+<div class="card">
+<ul>
+<li>แต่ละเทศกาลมี <b>3 ใบ</b> ใบละ <b>พืช + ปลา</b> ได้ Token และ Emerald ทำได้ <b>ปีละครั้งต่อใบต่อคน</b> ถ้าเทรดใบเดิมซ้ำในปีเดียวกัน พ่อค้าจะ <b>คืนของให้</b> ไม่เสียของ</li>
+<li><b>2 ชุดสลับปี:</b> ปีในเกมคู่ (ปีที่ 0, 2, 4 …) ใช้ <b>ชุด A</b> ปีคี่ใช้ <b>ชุด B</b> รางวัลต่อช่องเท่ากันทุกชุด ปีในเกม = 96 วัน ตรงกับ Stamp Card ตัว Passport, Almanac และพ่อค้าจะแสดงชุดของปีนั้นให้เอง</li>
+<li>เมนูประจำฤดูแลกได้ 3 Token พร้อมแสตมป์ ด้วย</li>
+<li>ใบสุดท้ายของฤดูหนาวต้องใช้ <b>พืชนอกฤดู</b> (มี * ในตาราง) ต้องปลูกใน <b>เรือนกระจกที่หลังคาเป็นกระจกสี</b> (สีไหนก็ได้ กระจกใสไม่นับแล้ว) และจุดไฟให้สว่าง ทำได้จะปลดล็อกความสำเร็จ Out of Season</li>
+</ul>
+<div class="tablewrap"><table>
+<tr><th>ฤดู / ชุด</th><th>ใบที่ 1</th><th>ใบที่ 2</th><th>ใบที่ 3</th></tr>
+<tr><td><b>ใบไม้ผลิ</b><br><span class='small'>ชุด A (ปีคู่)</span></td><td>24 Strawberry + 2 Blossom Bass<br><span class='small'>14 Token + 6 Emerald</span></td><td>24 Asparagus + 4 Rainbow Trout<br><span class='small'>9 Token + 6 Emerald</span></td><td>32 Onion + 4 Brook Trout<br><span class='small'>8 Token + 4 Emerald</span></td></tr>
+<tr><td><b>ใบไม้ผลิ</b><br><span class='small'>ชุด B (ปีคี่)</span></td><td>24 Lettuce + 2 Slimy Salmon<br><span class='small'>14 Token + 6 Emerald</span></td><td>24 Oat + 4 Yellow Perch<br><span class='small'>9 Token + 6 Emerald</span></td><td>32 Onion + 4 Bluegill<br><span class='small'>8 Token + 4 Emerald</span></td></tr>
+<tr><td><b>ฤดูร้อน</b><br><span class='small'>ชุด A (ปีคู่)</span></td><td>32 Tomato + 2 Tuna<br><span class='small'>8 Token + 6 Emerald</span></td><td>16 Chili Pepper + 1 Mahi Mahi<br><span class='small'>8 Token + 6 Emerald</span></td><td>32 Rice + 4 Largemouth Bass<br><span class='small'>8 Token + 4 Emerald</span></td></tr>
+<tr><td><b>ฤดูร้อน</b><br><span class='small'>ชุด B (ปีคี่)</span></td><td>32 Tomato + 2 Mackerel<br><span class='small'>8 Token + 6 Emerald</span></td><td>16 Peanut + 1 Sailfish<br><span class='small'>8 Token + 6 Emerald</span></td><td>32 Sweet Potato + 4 Red Snapper<br><span class='small'>8 Token + 4 Emerald</span></td></tr>
+<tr><td><b>ใบไม้ร่วง</b><br><span class='small'>ชุด A (ปีคู่)</span></td><td>24 Red Grape + 4 Walleye<br><span class='small'>13 Token + 6 Emerald</span></td><td>24 Sweet Potato + 4 Carp<br><span class='small'>8 Token + 6 Emerald</span></td><td>32 Corn + 4 Catfish<br><span class='small'>10 Token + 4 Emerald</span></td></tr>
+<tr><td><b>ใบไม้ร่วง</b><br><span class='small'>ชุด B (ปีคี่)</span></td><td>24 White Grape + 4 Angelfish<br><span class='small'>13 Token + 6 Emerald</span></td><td>24 Peanut + 4 Black Crappie<br><span class='small'>8 Token + 6 Emerald</span></td><td>32 Lettuce + 4 Ocean Perch<br><span class='small'>10 Token + 4 Emerald</span></td></tr>
+<tr><td><b>ฤดูหนาว</b><br><span class='small'>ชุด A (ปีคู่)</span></td><td>32 Cabbage + 1 Sturgeon<br><span class='small'>9 Token + 6 Emerald</span></td><td>32 Barley + 4 Pike<br><span class='small'>8 Token + 4 Emerald</span></td><td>32 Tomato + 4 Flounder *<br><span class='small'>12 Token + 8 Emerald</span></td></tr>
+<tr><td><b>ฤดูหนาว</b><br><span class='small'>ชุด B (ปีคี่)</span></td><td>32 Ginger + 1 Frostbite Flounder<br><span class='small'>9 Token + 6 Emerald</span></td><td>32 Cabbage + 4 White Crappie<br><span class='small'>8 Token + 4 Emerald</span></td><td>32 Onion + 4 Snook *<br><span class='small'>12 Token + 8 Emerald</span></td></tr>
+</table></div>
+<p class="small">* ต้องใช้เรือนกระจก (ฤดูหนาว ใบที่ 3)</p>
+</div>
+
+<h2>7. Festival Stamp Card — บัตรแสตมป์ประจำปี</h2>
+<div class="card">
+<ul>
+<li>เก็บให้ได้ <b>20 แสตมป์ต่อปี</b> แต่ละเทศกาลมี 5: มาเยี่ยมพ่อค้า, ใบสั่ง 3 ใบ และเมนูประจำฤดู</li>
+<li>รางวัล: <b>5 แสตมป์</b> = 5 Token + เค้ก · <b>10</b> = 10 Token + เมล็ดหายาก · <b>15</b> = Festival Treasure สุ่ม 1 ชิ้น · <b>20</b> = ถ้วย <b>Festival Champion Trophy</b></li>
+<li>บัตรเริ่มใหม่ทุกปีในเกม (96 วัน) ไม่มีย้อนเก็บ แต่รางวัลที่ได้แล้วเป็นของคุณ</li>
+<li>ความสำเร็จ Hall of Fame: <b>Festival Champion</b> และ <b>Festival Legend</b> (เก็บบัตรเต็มสามใบในสามปีที่ต่างกัน)</li>
+<li>กิจกรรมประจำเทศกาลไม่ให้แสตมป์ และไม่มีเป้าหมายให้ไล่ตาม</li>
+</ul>
+</div>
+
+<h2>8. Festival Treasure — ข้อเสนอเดียวในเทศกาล</h2>
+<div class="card">
+<p>ที่บนสุดของ Token Shop คุณจะเห็น <b>Festival Treasure 1–2 ชิ้น</b> (ชิ้นที่สองมีโอกาสราวครึ่งหนึ่ง) สุ่มให้แต่ละคนไม่เหมือนกัน ซื้อได้ <b>ครั้งเดียวต่อชิ้นต่อเทศกาล</b> และไม่รีสต็อกรายวัน ของแพงสุ่มเจอได้ยากกว่า</p>
+<div class="tablewrap"><table>
+<tr><th>ของ</th><th>ราคา (Token)</th></tr>
+<tr><td>Nether Star</td><td>80 (จ่าย 64 + 16 ในสองช่อง)</td></tr>
+<tr><td>Netherite Upgrade Template</td><td>64</td></tr>
+<tr><td>Totem of Undying</td><td>50</td></tr>
+<tr><td>Book of Mending</td><td>44</td></tr>
+<tr><td>Book of Fortune III</td><td>40</td></tr>
+<tr><td>Book of Sharpness V · Efficiency V · Looting III</td><td>38</td></tr>
+<tr><td>Book of Protection IV · Silk Touch</td><td>36</td></tr>
+<tr><td>Book of Unbreaking III · Feather Falling IV</td><td>34</td></tr>
+<tr><td>Netherite Ingot · Enchanted Golden Apple</td><td>30</td></tr>
+<tr><td>2 Shulker Shells</td><td>26</td></tr>
+<tr><td>2 Diamonds</td><td>24</td></tr>
+<tr><td>Trident</td><td>22</td></tr>
+</table></div>
+</div>
+
+<h2>9. Token Shop และ Emerald Shop <span class="tag t-info">ปรับราคาใน 1.4.3</span></h2>
+<div class="card">
+<ul>
+<li>ราคาใน <b>Token Shop เพิ่มเป็นสองเท่า</b> ทุกรายการที่จ่ายด้วย Token ใน 1.4.3 (ยกเว้น Festival Treasure) เพราะ Token เฟ้อเร็ว ตัวอย่าง: Diamond Hoe / Knife 40, Heart of the Sea 30, Diamond Fishing Rod 50, Bee Nest (Blossom Fair) 24</li>
+<li>เมล็ดและต้นกล้าแพงขึ้นตามราคาตลาด ตัวอย่าง: Asparagus Seeds 4 เมล็ด 24 Token, เมล็ดองุ่น 2 เมล็ด 20 Token, Apple Tree Sapling และ Dark Cherry Sapling 8 Token</li>
+<li><b>Sniffer Egg</b> ไม่มีขายด้วย Token แล้ว ซื้อได้เฉพาะด้วย Emerald Block ที่ Blossom Fair</li>
+</ul>
+<p><b>Emerald Shop</b> ของที่จ่ายด้วย Emerald Block แยกตามเทศกาล:</p>
+<table>
+<tr><th>เทศกาล</th><th>ของ (ราคา Emerald Block)</th></tr>
+<tr><td>🌸 Blossom Fair</td><td>Bottle o' Enchanting ×16 (2) · Sniffer Egg (6)</td></tr>
+<tr><td>🎣 Grand Fishing Derby</td><td>Lucky Bait ×16 (1) · Magnetic Bait ×16 (1) · Abyss Bait ×8 (2)</td></tr>
+<tr><td>🍂 Harvest Feast</td><td>Armor Trim ทั้ง 16 แบบ (3 ต่อแบบ) · Beacon (28)</td></tr>
+<tr><td>🎄 Christmas</td><td>2 Shulker Shells (4) · แผ่นเสียงเพลง 14 แผ่น (2 ต่อแผ่น)</td></tr>
+</table>
+</div>
+
+<h2>10. กิจกรรมประจำเทศกาล</h2>
+<div class="card">
+<ul>
+<li><b>Grand Fishing Derby — เหรียญ Derby:</b> แต้ม Angler XP ที่ได้ระหว่าง Derby นับเป็นแต้ม Derby · <b>Bronze 100 แต้ม</b> = 3 Token · <b>Silver 250</b> = 5 Token · <b>Gold 500</b> = 8 Token · วัน Derby Day (วันที่ 8) แต้มนับสองเท่า (Angler XP ใน 1.4.3 เพิ่ม 5 เท่า แต่เหรียญปรับให้ยากเท่าเดิม)</li>
+<li><b>Blossom Fair — Planting Day</b> (วันที่ 4) · <b>Harvest Feast — Feast Night</b> (คืนวันที่ 12) · <b>Christmas</b> มีซานต้ากับ Jingle the Elf</li>
+</ul>
+</div>
+
+<h2>เคล็ดลับ</h2>
+<div class="card">
+<ul>
+<li>สะสมปลาและพืชของฤดูไว้ตั้งแต่วันที่ 1–8 ของฤดู แล้วค่อยมาขายตอนเทศกาลเริ่ม (วันที่ 9)</li>
+<li>In Season ให้ Token ดีที่สุดต่อของที่ใช้ แต่จำกัดต่อวัน ขายแค่ที่ครบ 3 ครั้ง แล้วเก็บของที่เหลือไว้วันถัดไป</li>
+<li>ทำใบสั่งให้ครบทุกใบทุกเทศกาล ได้ทั้ง Token, Emerald และแสตมป์ ปีถัดไปใบสั่งจะเปลี่ยนเป็นอีกชุด</li>
+<li>เก็บ Token ไว้ซื้อ Festival Treasure ที่ต้องการ ราคาสูงสุดต้อง 64 + 16</li>
+<li>ปลูกพืชฤดูร้อนใน <b>เรือนกระจกกระจกสี</b> ไว้ล่วงหน้า สำหรับใบสั่งฤดูหนาว</li>
+</ul>
+</div>
+
+<p class="small" style="margin-top:24px">แพ็ก 1.4.3 · ตัวเลขทุกตัวอ่านจากข้อมูลของ Core 1.4.3 · ดูหน้า <a href="food-system.html">ระบบอาหาร</a> สำหรับจานประจำฤดู</p>
+</div>
+</body>
+</html>
